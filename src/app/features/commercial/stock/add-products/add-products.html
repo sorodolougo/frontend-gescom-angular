@@ -1,0 +1,73 @@
+<!-- FIX 1 : Ajout de (ngSubmit) pour lier le formulaire à ta méthode TypeScript -->
+<form [formGroup]="form" (ngSubmit)="submitForm()" class="erp-form">
+  
+  <!-- nzRowGutter gère les espacements universels (16px horizontal, 24px vertical entre les champs) -->
+  <div nz-row [nzGutter]="gridGutter">
+    
+    <!-- Champ Référence SKU -->
+    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="8">
+      <app-input
+        formControlName="sku"
+        label="Référence (SKU)"
+        placeholder="ex: PRD-001"
+        [required]="true"
+      />
+    </div>
+
+    <!-- Champ Nom -->
+    <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="16" [nzLg]="16">
+      <app-input
+        formControlName="name"
+        label="Nom du produit"
+        placeholder="ex: Écran Dell"
+        [required]="true"
+      />
+    </div>
+
+    <!-- Champ Prix HT -->
+    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="8">
+      <app-input 
+        formControlName="priceHt" 
+        label="Prix (HT)" 
+        type="number" 
+        [required]="true" 
+      />
+    </div>
+
+    <!-- Champ Taux TVA -->
+    <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="8">
+      <app-input
+        formControlName="vatRate"
+        label="Taux de TVA (%)"
+        type="number"
+        [required]="true"
+      />
+    </div>
+
+    <!-- Champ Stock Initial -->
+    <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="8" [nzLg]="8">
+      <app-input
+        formControlName="currentStock"
+        label="Stock initial"
+        type="number"
+        [required]="true"
+      />
+    </div>
+  </div>
+
+ <!-- Dans add-products.html -->
+<div class="form-actions" style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+  
+  <!-- Bouton Annuler/Réinitialiser automatique -->
+  <app-button action="cancel" (btnClick)="form.reset()">
+    Réinitialiser
+  </app-button>
+
+  <!-- Bouton Enregistrer avec loader connecté sur ton signal isSubmitting -->
+  <app-button action="save" htmlType="submit" [loading]="isSubmitting()">
+    Enregistrer le produit
+  </app-button>
+  
+</div>
+
+</form>

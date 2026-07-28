@@ -1,0 +1,27 @@
+// src/styles/typography.scss
+
+// 1. Définition des variables de base de l'ERP
+$font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+$line-height-base: 1.5;
+
+// 2. Échelle typographique stricte (Tokens)
+$text-scales: (
+  'h1': (size: 38px, weight: 700, l-height: 1.2, margin: 0 0 16px),
+  'h2': (size: 30px, weight: 600, l-height: 1.3, margin: 0 0 14px),
+  'h3': (size: 24px, weight: 600, l-height: 1.35, margin: 0 0 12px),
+  'h4': (size: 20px, weight: 500, l-height: 1.4, margin: 0 0 8px),
+  'body-lead': (size: 16px, weight: 400, l-height: 1.6, margin: 0 0 12px),
+  'body': (size: 14px, weight: 400, l-height: 1.5, margin: 0 0 8px),
+  'caption': (size: 12px, weight: 400, l-height: 1.4, margin: 0)
+);
+
+// 3. Génération automatisée des classes utilitaires pour l'application
+@each $name, $properties in $text-scales {
+  .app-text-#{$name} {
+    font-size: map-get($properties, size);
+    font-weight: map-get($properties, weight);
+    line-height: map-get($properties, l-height);
+    margin: map-get($properties, margin);
+    font-family: $font-family-base;
+  }
+}

@@ -1,0 +1,148 @@
+<app-page-layout 
+  title="Catalogue des Produits" 
+  subtitle="Suivi du stock physique, des prix HT et des alertes de rupture de SKU">
+  
+  <!-- ZONE EXTRA DU HEADER : Le bouton se loge automatiquement en haut à droite -->
+  <div actions>
+    <app-button action="create" (btnClick)="openCreationModal()">
+      Ajouter un nouveau produit
+    </app-button>
+  </div>
+
+  <!-- CONTAINER CENTRAL UNIQUE (Zéro style en ligne, géré par le CSS global du Layout) -->
+  <div class="catalog-container">
+    
+    <!-- Gestion automatisée des alertes d'erreur -->
+    @if (errorMessage()) {
+      <div nz-row>
+        <div nz-col nzSpan="24">
+          <nz-alert nzType="error" [nzMessage]="errorMessage()" nzShowIcon class="mb-16"></nz-alert>
+        </div>
+      </div>
+    }
+
+    <!-- GRILLE RESPONSIVE PRINCIPALE -->
+    <div nz-row [nzGutter]="gridGutter">
+      
+      <!-- 📱 AFFICHAGE MOBILE : Cartes empilées (Actif sur xs/sm, masqué à partir de md = 768px) -->
+      <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="0">
+        <div nz-row [nzGutter]="[0, 16]">
+          @for (product of products(); track product.id) {
+            <div nz-col nzSpan="24">
+              <nz-card [nzTitle]="cardTitle" [nzExtra]="cardActions" class="erp-mobile-card">
+                
+                <div nz-row [nzGutter]="[0, 8]">
+                  <div nz-col nzSpan="12" class="text-muted">Prix HT :</div>
+                  <div nz-col nzSpan="12" class="text-right font-medium">{{ product.priceHt | appCurrency }}</div>
+                  
+                  <div nz-col nzSpan="12" class="text-muted">Taux TVA :</div>
+                  <div nz-col nzSpan="12" class="text-right">{{ product.vatRate }}%</div>
+                  
+                  <div nz-col nzSpan="12" class="text-muted">Stock Physique :</div>
+                  <div nz-col nzSpan="12" class="text-right">
+                    @if (product.currentStock > 20) {
+                      <nz-tag nzColor="success">{{ product.currentStock }} unités</nz-tag>
+                    } @else if (product.currentStock > 0) {
+                      <nz-tag nzColor="warning">Critique ({{ product.currentStock }})</nz-tag>
+                    } @else {
+                      <nz-tag nzColor="error">Rupture</nz-tag>
+                    }
+                  </div>
+                </div>
+
+                <!-- En-tête de la carte Mobile -->
+                <ng-template #cardTitle>
+                  <span class="sku-badge">{{ product.sku }}</span>
+                  <div class="product-card-name">{{ product.name }}</div>
+                </ng-template>
+
+                <!-- Actions de la carte Mobile -->
+                <ng-template #cardActions>
+                  <div class="action-buttons-wrapper">
+                    <app-button action="edit" (btnClick)="onEditProduct(product.id)"></app-button>
+                    <app-button action="delete" (btnClick)="onDeleteProduct(product.id, product.sku)"></app-button>
+                  </div>
+                </ng-template>
+
+              </nz-card>
+            </div>
+          } @empty {
+            @if (!isLoading() && !errorMessage()) {
+              <div nz-col nzSpan="24" class="empty-state">
+                Aucun produit disponible dans la base de données.
+              </div>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- 💻 AFFICHAGE DESKTOP : Le Grand Tableau Pro (Masqué sur mobile, actif dès md = 768px) -->
+      <div nz-col [nzXs]="0" [nzSm]="0" [nzMd]="24">
+        <nz-table 
+          #basicTable 
+          [nzData]="products()" 
+          [nzLoading]="isLoading()" 
+          [nzFrontPagination]="true" 
+          [nzPageSize]="10"
+          nzBordered>
+          <thead>
+            <tr>
+              <th>Code SKU</th>
+              <th>Désignation</th>
+              <th class="text-right">Prix HT</th>
+              <th class="text-right">Taux TVA</th>
+              <th class="text-center">Stock Physique</th>
+              <th class="text-center" nzWidth="120px">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (product of basicTable.data; track product.id) {
+              <tr>
+                <td><span class="sku-table-text">{{ product.sku }}</span></td>
+                <td>{{ product.name }}</td>
+                <td class="text-right font-medium">{{ product.priceHt | appCurrency }}</td>
+                <td class="text-right">{{ product.vatRate }}%</td>
+                <td class="text-center">
+                  @if (product.currentStock > 20) {
+                    <nz-tag nzColor="success">{{ product.currentStock }} unités</nz-tag>
+                  } @else if (product.currentStock > 0) {
+                    <nz-tag nzColor="warning">Critique ({{ product.currentStock }})</nz-tag>
+                  } @else {
+                    <nz-tag nzColor="error">Rupture</nz-tag>
+                  }
+                </td>
+                <td class="text-center">
+                  <div class="table-actions-container">
+                    <app-button action="edit" (btnClick)="onEditProduct(product.id)"></app-button>
+                    <app-button action="delete" (btnClick)="onDeleteProduct(product.id, product.sku)"></app-button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              @if (!isLoading() && !errorMessage()) {
+                <tr>
+                  <td colspan="6" class="empty-state-table">
+                    Aucun produit disponible dans la base de données.
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </nz-table>
+      </div>
+
+    </div>
+  </div>
+</app-page-layout>
+
+<!-- FENÊTRE MODALE CENTRALE CONVERTIE AUX SIGNALS -->
+<nz-modal 
+  [nzVisible]="isModalOpen()" 
+  [nzTitle]="modalTitle()" 
+  [nzFooter]="null"
+  (nzOnCancel)="handleModalClose()">
+  <ng-container *nzModalContent>
+    <!-- Le composant de formulaire réutilisable -->
+    <app-add-products (productSaved)="onProductCreated()"></app-add-products>
+  </ng-container>
+</nz-modal>

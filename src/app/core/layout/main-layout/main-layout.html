@@ -1,0 +1,85 @@
+<nz-layout class="app-layout">
+  
+  <!-- SIDEBAR LATÉRALE -->
+  <!-- [nzCollapsed] et (nzCollapseChange) : Gèrent proprement le Signal en flux unidirectionnel -->
+  <!-- nzBreakpoint="lg" : Standard ERP pour plier le menu automatiquement sur les tablettes -->
+ <nz-sider
+  class="menu-sidebar"
+  nzCollapsible
+  nzWidth="256px"
+  nzBreakpoint="lg"
+  [nzCollapsed]="isCollapsed()"
+  (nzCollapseChange)="isCollapsed.set($any($event))"
+  [nzTrigger]="null">
+    
+    <!-- Logo d'entreprise épuré (Plus de redirection vers le site externe d'Ant Design) -->
+    <div class="sidebar-logo">
+      <div class="logo-container">
+        <span nz-icon nzType="dashboard" class="logo-icon"></span>
+        @if (!isCollapsed()) {
+          <h1>GesCom ERP</h1>
+        }
+      </div>
+    </div>
+
+    <!-- MENU DE NAVIGATION -->
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed()">
+      
+      <!-- Lien Accueil / Bienvenue -->
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/welcome">
+          <span nz-icon nzType="home"></span>
+          <span>Bienvenue</span>
+        </a>
+      </li>
+      
+      <!-- Module Commercial (Sous-menu déployé dynamiquement) -->
+      <li nz-submenu nzOpen nzTitle="Gestion Commerciale" nzIcon="shop">
+        <ul>
+          <!-- Lien Stock : Pointe vers ton catalogue de produits fonctionnel -->
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/commercial/products">
+              <span nz-icon nzType="box-plot"></span>
+              <span>Catalogue Produits</span>
+            </a>
+          </li>
+          <!-- Lien Clients -->
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/commercial/customers">
+              <span nz-icon nzType="team"></span>
+              <span>Fichier Clients</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+    </ul>
+  </nz-sider>
+
+  <!-- ZONE DE CONTENU À DROITE -->
+  <nz-layout class="right-layout">
+    
+    <!-- EN-TÊTE DE L'APPLICATION -->
+    <nz-header class="app-header-container">
+      <div class="app-header">
+        <!-- Actionneur de pliage du menu mis à jour avec l'API .set() des Signals -->
+        <span class="header-trigger" (click)="isCollapsed.set(!isCollapsed())">
+          <span nz-icon class="trigger" [nzType]="isCollapsed() ? 'menu-unfold' : 'menu-fold'"></span>
+        </span>
+        
+        <!-- Zone de profil utilisateur pour un rendu ERP Premium -->
+        <div class="header-user-profile">
+          <span class="user-role">Mode Senior Pro</span>
+        </div>
+      </div>
+    </nz-header>
+
+    <!-- ZONE DE RENDU INTERNE DES PAGES UNIVERSELLES -->
+    <nz-content class="app-content-body">
+      <div class="inner-content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+
+  </nz-layout>
+</nz-layout>

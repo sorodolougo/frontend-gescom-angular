@@ -1,1 +1,66 @@
 /* You can add global styles to this file, and also import other style files */
+
+//  src/styles.scss
+
+///////////////////////////STYLES DES BOUTON//////////////////////////////
+app-button {
+  button.ant-btn {
+    // 1. AUTOMATISATION DE L'ARRONDI (BORDER-RADIUS)
+    border-radius: 8px !important; // Un arrondi moderne de 8px pour un look ERP SaaS
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    height: 38px; // Hauteur standardisée élégante pour la saisie
+    transition: all 0.2s ease-in-out;
+
+    // Éffet de survol fluide haut de gamme
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+
+    // 2. PERSONNALISATION DES COULEURS MÉTIERS DE LA GESCOM
+    
+    // Bouton de type "Enregistrer" / "Créer" (Primary)
+    &.ant-btn-primary:not(.ant-btn-dangerous) {
+      background-color: #0f172a !important; // Une couleur Bleu Nuit / Slate très pro (style Tailwind)
+      border-color: #0f172a !important;
+      color: #ffffff !important;
+
+      &:hover {
+        background-color: #1e293b !important; // Éclaircissement léger au survol
+        border-color: #1e293b !important;
+      }
+    }
+
+    // Bouton de type "Annuler" / "Retour" (Default)
+    &.ant-btn-default {
+      background-color: #ffffff !important;
+      border-color: #e2e8f0 !important; // Bordure grise très fine et épurée
+      color: #475569 !important;
+
+      &:hover {
+        background-color: #f8fafc !important;
+        color: #0f172a !important;
+        border-color: #cbd5e1 !important;
+      }
+    }
+
+    // Bouton de type "Supprimer" (Danger)
+    &.ant-btn-dangerous {
+      background-color: #ef4444 !important; // Un rouge vif moderne (style iOS/Tailwind)
+      border-color: #ef4444 !important;
+
+      &:hover {
+        background-color: #dc2626 !important;
+        border-color: #dc2626 !important;
+      }
+    }
+  }
+}
+
+
+///////////////////////////////////////////

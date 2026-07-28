@@ -1,0 +1,51 @@
+.mb-16 { margin-bottom: 16px; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.font-medium { font-weight: 500; }
+.text-muted { color: #8c8c8c; }
+
+.sku-table-text {
+  font-family: monospace;
+  font-weight: bold;
+  color: #096dd9;
+}
+
+.empty-state, .empty-state-table {
+  text-align: center;
+  color: #8c8c8c;
+  padding: 32px;
+}
+
+.erp-mobile-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f0f0f0;
+
+  .sku-badge {
+    font-family: monospace;
+    font-weight: bold;
+    color: #096dd9;
+    background: #e6f7ff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  .product-card-name {
+    font-size: 14px;
+    margin-top: 4px;
+    font-weight: 500;
+    color: #262626;
+  }
+
+  .action-buttons-wrapper {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+.table-actions-container {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
