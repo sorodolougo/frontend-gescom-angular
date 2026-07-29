@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://backend-api-spring-boot.onrender.com'
+  baseUrl: 'https://backend-api-spring-boot.onrender.com/api'
 };
