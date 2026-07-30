@@ -69,8 +69,11 @@
         
         <!-- Zone de profil utilisateur pour un rendu ERP Premium -->
         <div class="header-user-profile">
-          <span class="user-role">Mode Senior Pro</span>
-        </div>
+  <!-- Affiche : 30 juillet 2026 à 03:16:45 (Se met à jour chaque seconde) -->
+  <span class="user-role">
+    {{ currentDateTime() | date: "dd MMMM yyyy ',' HH:mm:ss" }}
+  </span>
+</div>
       </div>
     </nz-header>
 

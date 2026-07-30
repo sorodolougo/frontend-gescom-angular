@@ -1,7 +1,7 @@
-<app-page-layout 
-  [title]="'Fiche Article : ' + form.controls.sku.value" 
-  subtitle="Modification des informations signalétiques et des seuils d'inventaire">
-  
+<app-page-layout
+  [title]="'Fiche Article : ' + form.controls.sku.value"
+  subtitle="Modification des informations signalétiques et des seuils d'inventaire"
+>
   <!-- Zone d'action du Header : Bouton pour retourner au tableau -->
   <div actions>
     <app-button action="cancel" (btnClick)="goBackToList()">Retour au catalogue</app-button>
@@ -10,30 +10,44 @@
   <!-- Formulaire de saisie direct, géré par notre grille responsive -->
   <form [formGroup]="form" (ngSubmit)="submitForm()">
     <div nz-row [nzGutter]="[16, 24]">
-      
       <div nz-col [nzXs]="24" [nzMd]="8">
-        <app-input formControlName="sku" label="Référence (SKU)" [required]="true" />
+        <app-input 
+        formControlName="sku" 
+        label="Référence (SKU)" 
+        [required]="true" />
       </div>
 
       <div nz-col [nzXs]="24" [nzMd]="16">
-        <app-input formControlName="name" label="Nom de l'article" [required]="true" />
+        <app-input 
+        formControlName="name" 
+        label="Nom de l'article" [required]="true" />
       </div>
 
       <div nz-col [nzXs]="24" [nzMd]="8">
-        <app-input formControlName="priceHt" label="Prix HT" type="number" [required]="true" />
+        <app-input 
+        formControlName="priceHt" 
+        label="Prix HT" 
+        type="number" [required]="true" />
       </div>
 
       <div nz-col [nzXs]="24" [nzMd]="8">
-        <app-input formControlName="vatRate" label="Taux TVA (%)" type="number" [required]="true" />
+        <app-input 
+        formControlName="vatRate" 
+        label="Taux TVA (%)" 
+        type="number" [required]="true" />
       </div>
 
       <div nz-col [nzXs]="24" [nzMd]="8">
-        <app-input formControlName="currentStock" label="Stock Physique" type="number" [required]="true" />
+        <app-input
+          formControlName="currentStock"
+          label="Stock Physique"
+          type="number"
+          [required]="true"
+        />
       </div>
-
     </div>
 
-    <div style="display: flex; justify-content: flex-end; margin-top: 24px;">
+    <div style="display: flex; justify-content: flex-end; margin-top: 24px">
       <app-button action="save" htmlType="submit" [loading]="isSubmitting()">
         Enregistrer les modifications
       </app-button>

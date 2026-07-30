@@ -2,12 +2,13 @@
   title="Catalogue des Produits" 
   subtitle="Suivi du stock physique, des prix HT et des alertes de rupture de SKU">
   
-  <!-- ZONE EXTRA DU HEADER : Le bouton se loge automatiquement en haut à droite -->
-  <div actions>
-    <app-button action="create" (btnClick)="openCreationModal()">
-      Ajouter un nouveau produit
-    </app-button>
-  </div>
+<!-- ZONE EXTRA DU HEADER : Le bouton se loge automatiquement en haut à droite -->
+<div actions class="header-action-responsive">
+  <app-button action="create" (btnClick)="openCreationModal()">
+    <span class="btn-text-responsive">Ajouter un nouveau produit</span>
+  </app-button>
+</div>
+
 
   <!-- CONTAINER CENTRAL UNIQUE (Zéro style en ligne, géré par le CSS global du Layout) -->
   <div class="catalog-container">
@@ -50,19 +51,22 @@
                   </div>
                 </div>
 
-                <!-- En-tête de la carte Mobile -->
-                <ng-template #cardTitle>
-                  <span class="sku-badge">{{ product.sku }}</span>
-                  <div class="product-card-name">{{ product.name }}</div>
-                </ng-template>
+              <!-- En-tête de la carte Mobile -->
+<ng-template #cardTitle>
+  <div class="mobile-title-container">
+    <span class="sku-badge">{{ product.sku }}</span>
+    <div class="product-card-name">{{ product.name }}</div>
+  </div>
+</ng-template>
 
-                <!-- Actions de la carte Mobile -->
-                <ng-template #cardActions>
-                  <div class="action-buttons-wrapper">
-                    <app-button action="edit" (btnClick)="onEditProduct(product.id)"></app-button>
-                    <app-button action="delete" (btnClick)="onDeleteProduct(product.id, product.sku)"></app-button>
-                  </div>
-                </ng-template>
+<!-- Actions de la carte Mobile -->
+<ng-template #cardActions>
+  <div class="action-buttons-wrapper">
+    <app-button action="edit" (btnClick)="onEditProduct(product.id)"></app-button>
+    <app-button action="delete" (btnClick)="onDeleteProduct(product.id, product.sku)"></app-button>
+  </div>
+</ng-template>
+
 
               </nz-card>
             </div>

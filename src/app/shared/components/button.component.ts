@@ -51,7 +51,7 @@ export class AppButtonComponent {
       case 'export':
         return 'default'; // Blanc avec bordure grise
       case 'edit':
-        return 'text';    // Bouton discret sans bordure pour les lignes de tableaux
+        return 'primary';    // Bleu corporate
       case 'delete':
         return 'primary'; // Devient rouge combiné avec [nzDanger]
       default:

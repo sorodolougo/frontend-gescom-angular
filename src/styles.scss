@@ -2,7 +2,7 @@
 
 //  src/styles.scss
 
-///////////////////////////STYLES DES BOUTON//////////////////////////////
+////////////////=========== STYLES DES BOUTONS ===========/////////////////
 app-button {
   button.ant-btn {
     // 1. AUTOMATISATION DE L'ARRONDI (BORDER-RADIUS)
@@ -12,7 +12,7 @@ app-button {
     height: 38px; // Hauteur standardisée élégante pour la saisie
     transition: all 0.2s ease-in-out;
 
-    // Éffet de survol fluide haut de gamme
+    // Effet de survol fluide haut de gamme
     &:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -25,8 +25,8 @@ app-button {
     // 2. PERSONNALISATION DES COULEURS MÉTIERS DE LA GESCOM
     
     // Bouton de type "Enregistrer" / "Créer" (Primary)
-    &.ant-btn-primary:not(.ant-btn-dangerous) {
-      background-color: #0f172a !important; // Une couleur Bleu Nuit / Slate très pro (style Tailwind)
+    &.ant-btn-primary:not(.ant-btn-dangerous):not(.ant-btn-warning) {
+      background-color: #0f172a !important; // Bleu Nuit / Slate très pro (style Tailwind)
       border-color: #0f172a !important;
       color: #ffffff !important;
 
@@ -59,8 +59,19 @@ app-button {
         border-color: #dc2626 !important;
       }
     }
+
+    // NOUVEAU : Bouton de type "Éditer" / "Modifier" (Warning)
+    &.ant-btn-warning {
+      background-color: #d97706 !important; // Un jaune ambré / orange pro et élégant
+      border-color: #d97706 !important;
+      color: #ffffff !important;
+
+      &:hover {
+        background-color: #b45309 !important; // Assombrissement subtil au survol
+        border-color: #b45309 !important;
+      }
+    }
   }
 }
-
 
 ///////////////////////////////////////////

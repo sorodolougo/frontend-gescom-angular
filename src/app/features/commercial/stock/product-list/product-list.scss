@@ -1,3 +1,6 @@
+// ====================================================================================
+// UTILITIES (CLASSES UTILITAIRES DE LA GESCOM)
+// ====================================================================================
 .mb-16 { margin-bottom: 16px; }
 .text-right { text-align: right; }
 .text-center { text-align: center; }
@@ -16,6 +19,15 @@
   padding: 32px;
 }
 
+.table-actions-container {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+// ====================================================================================
+// STRUCTURE DES CARTES MOBILE (RESPONSIVE CONFIGURATION)
+// ====================================================================================
 .erp-mobile-card {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -29,6 +41,7 @@
     padding: 2px 8px;
     border-radius: 4px;
     font-size: 12px;
+    display: inline-block; // Assure un comportement propre du badge en bloc
   }
 
   .product-card-name {
@@ -42,10 +55,63 @@
     display: flex;
     gap: 8px;
   }
+
+  // BLINDAGE RESPONSIF MOBILE (Écrans inférieurs à 576px)
+  @media (max-width: 576px) {
+    
+    // 1. Force l'en-tête interne de NG-ZORRO à s'empiler verticalement
+    ::v-deep .ant-card-head-wrapper {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      padding: 8px 0;
+      gap: 12px; // Crée la séparation parfaite entre le bloc titre et les boutons
+    }
+
+    // 2. Réaligne la zone des boutons sur toute la largeur
+    ::v-deep .ant-card-extra {
+      margin-left: 0 !important;
+      float: none !important;
+      width: 100%;
+    }
+
+    // 3. Aligne tes boutons à droite proprement
+    .action-buttons-wrapper {
+      justify-content: flex-end;
+      width: 100%;
+    }
+
+    // 4. Évite le débordement des longs noms de produits
+    .product-card-name {
+      white-space: normal;
+      line-height: 1.4;
+    }
+  }
 }
 
-.table-actions-container {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
+
+
+// ====================================================================================
+// GESTION DU BOUTON HEADER RESPONSIF (SAAS RECONSTRUCTION)
+// ====================================================================================
+.header-action-responsive {
+  
+  @media (max-width: 576px) {
+    // 1. On masque le texte du bouton sur smartphone
+    .btn-text-responsive {
+      display: none !important;
+    }
+
+    // 2. On ajuste la taille du bouton pour qu'il devienne un carré parfait autour du symbole "+"
+    ::v-deep button.ant-btn {
+      padding: 0 12px !important;
+      width: 38px; // Aligné sur la hauteur standard de 38px
+      height: 38px;
+    }
+
+    // 3. On centre l'icône "+" à l'intérieur du carré
+    ::v-deep .anticon {
+      margin-right: 0 !important; // Supprime l'espace qui était prévu pour le texte
+      font-size: 16px;
+    }
+  }
 }

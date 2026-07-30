@@ -2,7 +2,7 @@
 <form [formGroup]="form" (ngSubmit)="submitForm()" class="erp-form">
   
   <!-- nzRowGutter gère les espacements universels (16px horizontal, 24px vertical entre les champs) -->
-  <div nz-row [nzGutter]="gridGutter">
+  <div nz-row [nzGutter]="[16, 24]">
     
     <!-- Champ Référence SKU -->
     <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="8">
@@ -28,7 +28,7 @@
     <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="8">
       <app-input 
         formControlName="priceHt" 
-        label="Prix (HT)" 
+        label="Prix Hors Taxe (HT)" 
         type="number" 
         [required]="true" 
       />
@@ -65,7 +65,7 @@
 
   <!-- Bouton Enregistrer avec loader connecté sur ton signal isSubmitting -->
   <app-button action="save" htmlType="submit" [loading]="isSubmitting()">
-    Enregistrer le produit
+    Enregistrer
   </app-button>
   
 </div>

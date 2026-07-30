@@ -1,10 +1,203 @@
+<div class="welcome-container">
+  <!-- 1. BANNIÈRE DE BIENVENUE MÉTIER -->
+  <div nz-row [nzGutter]="16" class="mb-24">
+    <div nz-col nzSpan="24">
+      <div class="welcome-banner">
+        <!-- Utilisation du variant H1 -->
+        <app-text variant="h2"
+          ><span style="color: white !important"
+            >Jean-Francis vous souhaite la bienvenue sur GesCom ERP 👋</span
+          >
+        </app-text>
 
+        <!-- Utilisation du variant body-lead en mode clair pour le contraste sur fond sombre -->
+        <div class="banner-subtitle-wrapper">
+          <app-text variant="body-lead">
+            <span style="color: white !important">
+              L'infrastructure moderne de gestion commerciale cloud-native pour les entreprises .
+              Vos critiques constructives et propositions d'idées sont les bienvenues pour faire
+              évoluer cette plateforme.
+            </span>
+          </app-text>
+        </div>
 
+        <div class="banner-actions">
+          <app-button action="create" (btnClick)="navigateToProducts()">
+            <!-- Texte affiché uniquement sur Ordinateur/Tablette -->
+            <span class="desktop-text">Explorer le Catalogue Produits</span>
+
+            <!-- Texte court affiché uniquement sur Mobile -->
+            <span class="mobile-text">Explorer</span>
+          </app-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br />
+  <!-- 2. LE BUT DE L'APPLICATION & LES FONCTIONNALITÉS -->
+  <div nz-row [nzGutter]="16" class="mb-24">
+    <!-- Carte : Le But du Projet -->
+    <div nz-col nzXs="24" nzLg="14">
+      <nz-card
+        nzHoverable
+        nzTitle="À propos de l'application"
+        [nzBordered]="false"
+        class="erp-card-premium"
+      >
+        <div class="project-purpose">
+          <!-- Utilisation du variant body standard -->
+          <app-text variant="body">
+            <strong>GesCom ERP</strong> sera une application de gestion commerciale de classe
+            industrielle conçue pour centraliser et automatiser les flux opérationnels des
+            entreprises. Que vous soyez une PME exploitant une <strong>quincaillerie</strong>, une
+            <strong>boutique de vente</strong>, un <strong>dépôt de boissons</strong>, un
+            <strong>supermarché</strong> ou tout autre type de commerce, elle sera entièrement
+            personnalisable pour s'adapter à la réalité de votre activité. Elle permettra à terme de
+            piloter l'intégralité du cycle de vente, du suivi en temps réel du catalogue d'articles
+            à la gestion fine des fiches tiers et des stocks physiques.
+          </app-text>
+
+          <div class="mt-12">
+            <app-text variant="body">
+              L'objectif de ce projet sera de proposer une interface utilisateur fluide,
+              ultra-réactive et hautement disponible, capable de s'adapter instantanément aux
+              contraintes de mobilité des équipes commerciales sur le terrain.
+            </app-text>
+          </div>
+        </div>
+      </nz-card>
+    </div>
+
+    <!-- Carte : Les Piliers Métiers -->
+    <div nz-col nzXs="24" nzLg="10">
+      <nz-card
+        nzHoverable
+        nzTitle="Piliers Fonctionnels"
+        [nzBordered]="false"
+        class="erp-card-premium"
+      >
+        <ul class="features-list">
+          <li>
+            <span nz-icon nzType="barcode" nzTheme="outline" class="feat-icon text-primary"></span>
+            <div>
+              <app-text variant="body"
+                ><strong>Gestion du Catalogue :</strong> Suivi des articles, codification SKU
+                unique, calcul automatique des prix HT/TTC.</app-text
+              >
+            </div>
+          </li>
+          <li>
+            <span
+              nz-icon
+              nzType="line-chart"
+              nzTheme="outline"
+              class="feat-icon text-warning"
+            ></span>
+            <div>
+              <app-text variant="body"
+                ><strong>Gestion des Stocks :</strong> Alertes automatiques en cas de stock critique
+                ou de rupture pour sécuriser les ventes.</app-text
+              >
+              <app-text variant="caption" type="danger"
+                >* Inclus : Système d'alerte en cas de rupture de stock</app-text
+              >
+            </div>
+          </li>
+          <li>
+            <span nz-icon nzType="team" nzTheme="outline" class="feat-icon text-success"></span>
+            <div>
+              <app-text variant="body"
+                ><strong>Fichier Clients (En cours) :</strong> Centralisation de la base tiers pour
+                un suivi commercial rigoureux.</app-text
+              >
+            </div>
+          </li>
+          <!-- NOUVEAU PILIER : OUVERTURE SUR LES PROCHAINES ÉVOLUTIONS -->
+          <li>
+            <span
+              nz-icon
+              nzType="plus-circle"
+              nzTheme="outline"
+              class="feat-icon text-muted"
+            ></span>
+            <div>
+              <app-text variant="body" type="secondary"
+                ><strong>Et bien d'autres :</strong> Facturation automatisée, gestion des
+                fournisseurs, historiques d'achats et tableaux de bord analytiques.</app-text
+              >
+            </div>
+          </li>
+        </ul>
+      </nz-card>
+    </div>
+  </div>
+
+  <br />
+  <!-- 3. VITRINE TECHNIQUE POUR LES RECRUTEURS (STACK ARCHITECTURE) -->
+  <div nz-row [nzGutter]="16">
+    <div nz-col nzSpan="24">
+      <nz-card
+        nzHoverable
+        nzTitle="Stack Technique & Architecture"
+        [nzBordered]="false"
+        class="erp-card-premium tech-showcase"
+      >
+        <div class="mb-12">
+          <!-- Utilisation du variant h3 pour un sous-titre de section -->
+          <app-text variant="h3">Spécifications de l'Architecture Cloud</app-text>
+        </div>
+
+        <div class="mb-16">
+          <app-text variant="body" type="secondary">
+            Ce projet démontrera une maîtrise complète des architectures logicielles modernes de
+            bout en bout :
+          </app-text>
+        </div>
+
+        <div class="tech-grid">
+          <div class="tech-tag">
+            <app-text variant="body"
+              ><strong>Frontend :</strong> Angular 21 (Signals, Standalone Components), NG-ZORRO UI,
+              Vercel</app-text
+            >
+          </div>
+          <div class="tech-tag">
+            <app-text variant="body"
+              ><strong>Backend :</strong> Spring Boot 4 / Java 21, Clean Architecture par Domaine,
+              Render (Docker)</app-text
+            >
+          </div>
+          <div class="tech-tag">
+            <app-text variant="body"
+              ><strong>Stockage :</strong> PostgreSQL 18 Serverless (Neon.tech Cloud), Hibernate
+              7</app-text
+            >
+          </div>
+          <div class="tech-tag">
+            <app-text variant="body"
+              ><strong>Qualité :</strong> Tests Unitaires & Intégration (JUnit 5, Mockito), CI/CD
+              (GitHub Actions)</app-text
+            >
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+</div>
+
+<br />
+
+<app-text style="text-align: center" variant="h3"
+  >« Pensé, codé et propulsé avec ❤ par Jean-Francis. »</app-text
+>
+
+<!--
 <div class="page-header">
-      <!-- Titre principal de la page -->
-      <app-text variant="h1">Product Management</app-text>
+      Titre principal de la page 
+      <app-text variant="h1">Jean-Francis vous souhaite les bienvenus...</app-text>
       
-      <!-- Sous-titre ou description -->
+     Sous-titre ou description 
       <app-text variant="body-lead" type="secondary">
         Manage your corporate stock, SKU configurations, and base commercial prices.
       </app-text>
@@ -14,16 +207,9 @@
       <app-text variant="h3">ERP Premium License</app-text>
       <app-text variant="body">This license allows infinite users deployment.</app-text>
       
-      <!-- Message d'erreur/alerte standardisé -->
+       Message d'erreur/alerte standardisé 
       <app-text variant="caption" type="danger">
         * Critical Alert: Stock level is below minimum security threshold.
       </app-text>
     </div>
-  `
-
-
-
-
-
-
-
+  -->

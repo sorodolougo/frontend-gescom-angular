@@ -1,0 +1,62 @@
+.welcome-banner {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  padding: 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+
+  // FORCE TON COMPOSANT TEXT EN BLANC UNIQUEMENT DANS LA BANNIÈRE
+  ::v-deep app-text {
+    color: #ffffff !important;
+    
+    .text-secondary {
+      color: #cbd5e1 !important; // Couleur adoucie pour le sous-titre
+    }
+  }
+
+  .banner-subtitle-wrapper {
+    margin-top: 8px;
+    margin-bottom: 20px;
+    max-width: 600px;
+  }
+}
+
+// Petite utilitaire d'espacement pour le texte à propos
+.mt-12 { margin-top: 12px; }
+.mb-12 { margin-bottom: 12px; }
+
+
+
+// ====================================================================================
+// CONTROLE DU BOUTON ACTIONS BANNIÈRE EN MODE RESPONSIF
+// ====================================================================================
+.banner-actions {
+  // Par défaut (sur PC), le texte mobile est caché
+  .mobile-text {
+    display: none;
+  }
+  
+  .desktop-text {
+    display: inline;
+  }
+
+  // RÈGLE MOBILE : Écrans inférieurs à 576px
+  @media (max-width: 576px) {
+    width: 100%;
+    display: flex;
+    justify-content: center; // Centre le bouton proprement sur mobile
+
+    .desktop-text {
+      display: none !important; // On cache le long texte
+    }
+
+    .mobile-text {
+      display: inline !important; // On affiche le texte court
+    }
+
+    // Ajustement de la largeur pour un look d'application mobile native
+    ::v-deep button.ant-btn {
+      width: 100%; // Le bouton prend toute la largeur disponible de manière propre
+      max-width: 280px; // Mais on lui met une limite pour qu'il ne soit pas trop géant
+    }
+  }
+}

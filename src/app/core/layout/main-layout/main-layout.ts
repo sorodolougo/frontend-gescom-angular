@@ -22,6 +22,28 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
   styleUrl: './main-layout.scss'
 })
 export class MainLayout {
+
+  // Signal moderne Angular 21 pour stocker la date et l'heure courante
+  currentDateTime = signal<Date>(new Date());
+  
+  private timerId: any;
+
+  ngOnInit(): void {
+    // Robotisation : Met à jour le signal chaque seconde (1000 ms)
+    this.timerId = setInterval(() => {
+      this.currentDateTime.set(new Date());
+    }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    // Nettoyage de la mémoire lorsque le composant est détruit
+    if (this.timerId) {
+      clearInterval(this.timerId);
+    }
+  }
+
+
+
   // Notre signal réactif pour piloter l'état de la Sidebar
   isCollapsed = signal<boolean>(false);
 
