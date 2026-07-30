@@ -3,14 +3,15 @@
   <!-- SIDEBAR LATÉRALE -->
   <!-- [nzCollapsed] et (nzCollapseChange) : Gèrent proprement le Signal en flux unidirectionnel -->
   <!-- nzBreakpoint="lg" : Standard ERP pour plier le menu automatiquement sur les tablettes -->
- <nz-sider
+<nz-sider
   class="menu-sidebar"
   nzCollapsible
   nzWidth="256px"
   nzBreakpoint="lg"
   [nzCollapsed]="isCollapsed()"
-  (nzCollapseChange)="isCollapsed.set($any($event))"
+  (nzCollapsedChange)="isCollapsed.set($event)"
   [nzTrigger]="null">
+
     
     <!-- Logo d'entreprise épuré (Plus de redirection vers le site externe d'Ant Design) -->
     <div class="sidebar-logo">
