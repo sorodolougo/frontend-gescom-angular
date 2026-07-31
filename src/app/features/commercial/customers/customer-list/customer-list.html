@@ -1,0 +1,170 @@
+<div class="page-container">
+  <!-- EN-TÊTE DE SECTION AVEC ACTIONS RESPONSIVES -->
+  <div nz-row nzJustify="space-between" nzAlign="middle" class="mb-16">
+    <div nz-col>
+      <app-text variant="h1">Fichier Tiers Clients</app-text>
+      <app-text variant="body-lead" type="secondary">
+        Centralisez et pilotez votre base clients, types de comptes (B2B/B2C) et coordonnées.
+      </app-text>
+    </div>
+
+    <div nz-col class="header-action-responsive">
+      <app-button action="create" (btnClick)="openCreationModal()">
+        <span class="btn-text-responsive">Ajouter un nouveau client</span>
+      </app-button>
+    </div>
+  </div>
+<br>
+  <!-- ====================================================================================
+       BLOC D'AFFICHAGE PC & TABLETTE (Visible uniquement sur les écrans larges)
+       ==================================================================================== -->
+  <div nz-row class="mb-24 d-none-mobile">
+    <div nz-col nzSpan="24">
+      <nz-card [nzBordered]="false" class="erp-table-card">
+        <nz-table
+          #pcTable
+          [nzData]="customers()"
+          [nzLoading]="isLoading()"
+          [nzPageSize]="8"
+          nzSize="middle"
+        >
+          <thead>
+            <tr>
+              <th>Code Client</th>
+              <th>Raison Sociale / Nom</th>
+              <th>Téléphone</th>
+              <th>Email</th>
+              <th>Type de Tiers</th>
+              <th nzAlign="center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (customer of pcTable.data; track customer.id) {
+              <tr>
+                <td>
+                  <span class="sku-table-text">{{ customer.customerCode }}</span>
+                </td>
+                <td>
+                  <strong>{{ customer.name }}</strong>
+                </td>
+                <td>{{ customer.phone || 'Non renseigné' }}</td>
+                <td>{{ customer.email || 'Non renseigné' }}</td>
+                <td>
+                  @if (customer.customerType === 'ENTREPRISE') {
+                    <nz-tag nzColor="blue">B2B - Entreprise</nz-tag>
+                  } @else {
+                    <nz-tag nzColor="purple">B2C - Particulier</nz-tag>
+                  }
+                </td>
+
+                <td nzAlign="center">
+                  <div class="table-actions-container">
+                    <!-- SYSTEME DE REPARTITION AUTOMATIQUE D'ANT DESIGN -->
+                    <nz-space nzAlign="center" [nzSplit]="spaceSplit">
+                      <!-- Bouton Consulter Profil -->
+                      <app-button
+                        *nzSpaceItem
+                        action="export"
+                        (btnClick)="navigateToCustomerDetails(customer.id)"
+                      >
+                        <span nz-icon nzType="eye" nzTheme="outline"></span>
+                      </app-button>
+
+                      <!-- Bouton Éditer -->
+                      <app-button
+                        *nzSpaceItem
+                        action="edit"
+                        (btnClick)="onEditCustomer(customer.id)"
+                      ></app-button>
+
+                      <!-- Bouton Supprimer -->
+                      <app-button
+                        *nzSpaceItem
+                        action="delete"
+                        (btnClick)="onDeleteCustomer(customer.id, customer.customerCode)"
+                      ></app-button>
+                    </nz-space>
+
+                    <!-- ÉTAPE TECHNIQUE : Le template qui sert de moule pour injecter la ligne verticale -->
+                    <!-- FIX : On remplace </nz-quality-divider> par </nz-divider> pour un alignement parfait -->
+                    <ng-template #spaceSplit>
+                      <nz-divider nzType="vertical"></nz-divider>
+                    </ng-template>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+  </div>
+
+  <!-- ====================================================================================
+       BLOC D'AFFICHAGE MOBILE (Visible uniquement sur smartphone - Système d'empilement)
+       ==================================================================================== -->
+
+      <!-- ====================================================================================
+       BLOC D'AFFICHAGE MOBILE RECONSTRUIT (Pied de carte horizontal)
+       ==================================================================================== -->
+  <div nz-row [nzGutter]="[0, 16]" class="d-block-mobile mb-24">
+    @if (isLoading()) {
+      <div nz-col nzSpan="24" class="text-center padding-32">
+        <span nz-icon nzType="loading" style="font-size: 24px; color: #0f172a;"></span>
+      </div>
+    }
+    
+    @for (customer of customers(); track customer.id) {
+      <div nz-col nzSpan="24">
+        <!-- FIX : On retire [nzExtra]="cardActions" pour libérer totalement l'en-tête de la carte -->
+        <nz-card [nzTitle]="cardTitle" [nzBordered]="false" class="erp-mobile-card">
+          
+          <!-- Corps de la carte -->
+          <div nz-row [nzGutter]="[0, 8]" class="mb-12">
+            <div nz-col nzSpan="10" class="text-muted">Téléphone :</div>
+            <div nz-col nzSpan="14" class="text-right font-medium">{{ customer.phone || 'Non renseigné' }}</div>
+            
+            <div nz-col nzSpan="10" class="text-muted">Adresse Email :</div>
+            <div nz-col nzSpan="14" class="text-right text-truncate">{{ customer.email || 'Non renseigné' }}</div>
+            
+            <div nz-col nzSpan="10" class="text-muted">Type de Compte :</div>
+            <div nz-col nzSpan="14" class="text-right">
+              @if (customer.customerType === 'ENTREPRISE') {
+                <nz-tag nzColor="blue">Entreprise</nz-tag>
+              } @else {
+                <nz-tag nzColor="purple">Particulier</nz-tag>
+              }
+            </div>
+          </div>
+
+          <!-- NOUVEAU PIED DE CARREAU HORIZONTAL POUR LES BOUTONS -->
+          <div class="mobile-card-actions-footer">
+            <app-button action="export" (btnClick)="navigateToCustomerDetails(customer.id)">
+              <span nz-icon nzType="eye" nzTheme="outline"></span>
+            </app-button>
+            <app-button action="edit" (btnClick)="onEditCustomer(customer.id)"></app-button>
+            <app-button action="delete" (btnClick)="onDeleteCustomer(customer.id, customer.customerCode)"></app-button>
+          </div>
+
+          <!-- En-tête simplifié de la carte Mobile -->
+          <ng-template #cardTitle>
+            <div class="mobile-title-container">
+              <span class="sku-badge">{{ customer.customerCode }}</span>
+              <div class="product-card-name">{{ customer.name }}</div>
+            </div>
+          </ng-template>
+
+        </nz-card>
+      </div>
+    } @empty {
+      @if (!isLoading()) {
+        <div nz-col nzSpan="24" class="empty-state">
+          <app-text variant="body" type="secondary">Aucun client enregistré dans la base tiers.</app-text>
+        </div>
+      }
+    }
+  </div>
+
+
+
+</div>

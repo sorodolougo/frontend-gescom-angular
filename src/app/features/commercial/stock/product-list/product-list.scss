@@ -2,6 +2,7 @@
 // UTILITIES (CLASSES UTILITAIRES DE LA GESCOM)
 // ====================================================================================
 .mb-16 { margin-bottom: 16px; }
+.mb-12 { margin-bottom: 12px; }
 .text-right { text-align: right; }
 .text-center { text-align: center; }
 .font-medium { font-weight: 500; }
@@ -19,19 +20,35 @@
   padding: 32px;
 }
 
+// ALIGNEMENT DU CONTENEUR D'ACTIONS PC
 .table-actions-container {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important; // Aère proprement l'espace de chaque côté des diviseurs
+  width: 100%;
+
+  // Ajustement stylistique des fins traits verticaux de NG-ZORRO
+  ::v-deep .ant-divider-vertical {
+    height: 1.5em;
+    background-color: #cbd5e1; // Gris doux de style Slate
+    margin: 0;
+  }
 }
 
 // ====================================================================================
-// STRUCTURE DES CARTES MOBILE (RESPONSIVE CONFIGURATION)
+// STRUCTURE DES CARTES MOBILE (SaaS PIED DE PAGE DESIGN)
 // ====================================================================================
 .erp-mobile-card {
+  margin-bottom: 8px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   border: 1px solid #f0f0f0;
+
+  // Libère 100% de la largeur de l'en-tête pour le nom du produit/client
+  ::v-deep .ant-card-head-wrapper {
+    width: 100% !important;
+  }
 
   .sku-badge {
     font-family: monospace;
@@ -41,7 +58,7 @@
     padding: 2px 8px;
     border-radius: 4px;
     font-size: 12px;
-    display: inline-block; // Assure un comportement propre du badge en bloc
+    display: inline-block;
   }
 
   .product-card-name {
@@ -49,46 +66,28 @@
     margin-top: 4px;
     font-weight: 500;
     color: #262626;
+    white-space: normal;
+    word-break: break-word; // Sécurise les désignations ou raisons sociales très longues
+    line-height: 1.4;
   }
 
-  .action-buttons-wrapper {
+  // 🟢 DESIGN SAAS INTERNATIONAUX : Pied de carte horizontal épuré
+  .mobile-card-actions-footer {
     display: flex;
-    gap: 8px;
-  }
-
-  // BLINDAGE RESPONSIF MOBILE (Écrans inférieurs à 576px)
-  @media (max-width: 576px) {
+    justify-content: flex-end; // Aligne les 3 boutons d'actions à droite
+    gap: 8px; // Espace régulier uniforme
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #f1f5f9; // Trait gris très fin de démarcation chic
+    width: 100%;
     
-    // 1. Force l'en-tête interne de NG-ZORRO à s'empiler verticalement
-    ::v-deep .ant-card-head-wrapper {
-      flex-direction: column !important;
-      align-items: flex-start !important;
-      padding: 8px 0;
-      gap: 12px; // Crée la séparation parfaite entre le bloc titre et les boutons
-    }
-
-    // 2. Réaligne la zone des boutons sur toute la largeur
-    ::v-deep .ant-card-extra {
-      margin-left: 0 !important;
-      float: none !important;
-      width: 100%;
-    }
-
-    // 3. Aligne tes boutons à droite proprement
-    .action-buttons-wrapper {
-      justify-content: flex-end;
-      width: 100%;
-    }
-
-    // 4. Évite le débordement des longs noms de produits
-    .product-card-name {
-      white-space: normal;
-      line-height: 1.4;
+    // Standardise la taille carrée compacte des boutons d'action au pouce
+    ::v-deep button.ant-btn {
+      padding: 0 12px !important;
+      height: 38px;
     }
   }
 }
-
-
 
 // ====================================================================================
 // GESTION DU BOUTON HEADER RESPONSIF (SAAS RECONSTRUCTION)

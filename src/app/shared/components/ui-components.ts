@@ -11,6 +11,9 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 // Constante regroupant les modules de base les plus utilisés
 export const SHARED_ZORRO_MODULES = [
@@ -26,6 +29,9 @@ export const SHARED_ZORRO_MODULES = [
   NzGridModule,
   NzResultModule,
   NzCardModule,
+  NzDividerModule,
+  NzSpaceModule,
+  NzSelectModule 
   
 ] as const;
 

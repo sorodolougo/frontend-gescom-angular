@@ -1,0 +1,57 @@
+<div class="page-container">
+  
+  @if (customer(); as activeCustomer) {
+    <!-- EN-TÊTE DE LA FICHE -->
+    <div nz-row nzJustify="space-between" nzAlign="middle" class="mb-16">
+      <div nz-col>
+        <app-text variant="h1">{{ activeCustomer.name }}</app-text>
+        <div class="subtitle-badge-gap">
+          <span class="sku-table-text">{{ activeCustomer.customerCode }}</span>
+          @if (activeCustomer.customerType === 'ENTREPRISE') {
+            <nz-tag nzColor="blue">Compte Entreprise B2B</nz-tag>
+          } @else {
+            <nz-tag nzColor="purple">Compte Particulier B2C</nz-tag>
+          }
+        </div>
+      </div>
+      <div nz-col>
+        <app-button action="cancel" routerLink="/commercial/customers">Retour au fichier</app-button>
+      </div>
+    </div>
+
+    <!-- GRILLE D'INFORMATION DU COMPTE -->
+    <div nz-row [nzGutter]="16">
+      <div nz-col nzXs="24" nzMd="16">
+        <nz-card nzTitle="Coordonnées et Identité du Tiers" [nzBordered]="false" class="erp-card-premium">
+          <div class="details-grid">
+            <div class="details-row">
+              <span class="label text-muted">Numéro de Téléphone :</span>
+              <span class="value font-medium">{{ activeCustomer.phone || 'Aucun numéro enregistré' }}</span>
+            </div>
+            <div class="details-row">
+              <span class="label text-muted">Adresse Email :</span>
+              <span class="value">{{ activeCustomer.email || 'Aucune adresse email' }}</span>
+            </div>
+            <div class="details-row">
+              <span class="label text-muted">Adresse Postale / Géographique :</span>
+              <span class="value">{{ activeCustomer.address || 'Aucune adresse enregistrée' }}</span>
+            </div>
+            <div class="details-row">
+              <span class="label text-muted">Date d'intégration dans l'ERP :</span>
+              <span class="value text-muted">{{ activeCustomer.createdAt | date: 'dd MMMM yyyy à HH:mm' }}</span>
+            </div>
+          </div>
+        </nz-card>
+      </div>
+
+      <!-- PETIT WIDGET DE STATUT FINANCIER (PRO ASPECT) -->
+      <div nz-col nzXs="24" nzMd="8">
+        <nz-card nzTitle="Statut Commercial" [nzBordered]="false" class="erp-card-premium text-center">
+          <span nz-icon nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a" style="font-size: 48px;" class="mb-16"></span>
+          <app-text variant="h3">Compte Actif</app-text>
+          <app-text variant="caption" type="secondary">Ce client est autorisé à passer des commandes sur l'ensemble du réseau GesCom.</app-text>
+        </nz-card>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,74 @@
+// Gestion de la visibilité croisée des blocs d'IHM
+.d-none-mobile {
+  display: block;
+}
+
+.d-block-mobile {
+  display: none;
+}
+
+// POINT DE RUPTURE MOBILE (Écrans inférieurs à 768px)
+@media (max-width: 768px) {
+  .d-none-mobile {
+    display: none !important; // On efface le tableau
+  }
+
+  .d-block-mobile {
+    display: block !important; // On allume les cartes
+  }
+}
+
+// Sécurité anti-débordement des longues adresses emails
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.padding-32 {
+  padding: 32px;
+}
+
+
+// Ton SCSS devient propre et minimaliste !
+.table-actions-container {
+  width: 100%;
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+.erp-mobile-card {
+  margin-bottom: 8px;
+
+  // Assure que l'en-tête de base prend 100% de la place sans chercher d'extra
+  ::v-deep .ant-card-head-wrapper {
+    width: 100% !important;
+  }
+
+  .mobile-title-container {
+    width: 100%;
+    .product-card-name {
+      white-space: normal;
+      word-break: break-word; // Sécurité si la raison sociale de la PME est très longue
+    }
+  }
+
+  // 🟢 DESIGN D'ÉLITE : Le pied de carte horizontal épuré
+  .mobile-card-actions-footer {
+    display: flex;
+    justify-content: flex-end; // Aligne les 3 boutons à droite
+    gap: 8px; // Espace régulier de 8px entre les boutons
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #f1f5f9; // Petite ligne de séparation grise très chic
+    width: 100%;
+    
+    // Force les boutons à être des carrés compacts parfaits sur mobile
+    ::v-deep button.ant-btn {
+      padding: 0 12px !important;
+      height: 38px;
+    }
+  }
+}

@@ -94,6 +94,13 @@ export class ProductList implements OnInit {
     this.router.navigate(['/commercial/products', productId]);
   }
 
+/*
+  navigateToProductDetails(id: number): void {
+    this.router.navigate(['/commercial/products', id]); // Génère l'URL propre : /commercial/products/12
+  }
+*/
+
+
   /**
    * ACTION 2 : SUPPRESSION SÉCURISÉE (UX ENTERPRISE)
    * Déclenche une boîte de dialogue de confirmation stricte avant l'appel API

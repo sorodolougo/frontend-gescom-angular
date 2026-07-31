@@ -1,0 +1,15 @@
+.form-actions-wrapper {
+  display: flex;
+  justify-content: flex-end; // Aligne le bloc d'espacement à droite de la modal
+  margin-top: 24px;
+  border-top: 1px solid #f1f5f9; // Ligne grise fine au-dessus des boutons
+  padding-top: 16px;
+  width: 100%;
+
+  // Personnalisation subtile du petit trait vertical interne
+  ::v-deep .ant-divider-vertical {
+    height: 1.4em;
+    background-color: #cbd5e1; // Gris doux Slate
+    margin: 0;
+  }
+}

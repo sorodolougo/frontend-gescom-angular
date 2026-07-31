@@ -21,6 +21,19 @@ export const COMMERCIAL_ROUTES: Routes = [
     path: 'products/:id',
     title: 'GesCom - Fiche Produit',
     loadComponent: () => import('./stock/product-details/product-details').then(m => m.ProductDetails)
-  }
+  },
+
+   // 1. ÉCRAN Fiche Client
+  {
+    path: 'customers',
+    title: 'GesCom - Fiche Client',
+    loadComponent: () => import('./customers/customer-list/customer-list').then(m => m.CustomerList)
+  },
+
+    {
+    path: 'customers/:id',
+    title: 'GesCom - Fiche Client Détails',
+    loadComponent: () => import('./customers/customer-details/customer-details').then(m => m.CustomerDetails)
+  },
   
 ];
