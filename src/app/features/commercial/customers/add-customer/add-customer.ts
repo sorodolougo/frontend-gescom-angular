@@ -10,6 +10,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { CustomerService } from '../../../../core/services/customer/customer';
 import { AppButtonComponent } from '../../../../shared/components/button.component';
 import { SHARED_ZORRO_MODULES } from '../../../../shared/components/ui-components';
+import { AppInputComponent } from '../../../../shared/components/input.component';
 
 @Component({
   selector: 'app-add-customer',
@@ -18,7 +19,8 @@ import { SHARED_ZORRO_MODULES } from '../../../../shared/components/ui-component
     CommonModule,
     ReactiveFormsModule,
     SHARED_ZORRO_MODULES,
-    AppButtonComponent
+    AppButtonComponent,
+    AppInputComponent
   ],
   templateUrl: './add-customer.html',
   styleUrls: ['./add-customer.scss']

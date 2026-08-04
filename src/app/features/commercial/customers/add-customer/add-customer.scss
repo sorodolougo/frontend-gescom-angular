@@ -1,15 +1,60 @@
+
+
+.premium-form-wrapper {
+  // Amélioration cosmétique de la typographie des labels restés natifs
+  .label-premium {
+    font-weight: 500;
+    color: #1e293b; // Couleur Slate-800 très élégante
+    letter-spacing: 0.2px;
+  }
+
+  // Modernisation des inputs select de NG-ZORRO
+  ::v-deep .ant-select-selector {
+    border-radius: 8px !important; // Arrondi standardisé de 8px pour correspondre à tes boutons
+    height: 38px !important; // Hauteur uniforme de notre charte graphique
+    display: flex;
+    align-items: center;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      border-color: #cbd5e1 !important;
+    }
+  }
+
+  // Modernisation de la zone de texte géographique
+  .premium-textarea {
+    border-radius: 8px !important;
+    border-color: #e2e8f0 !important;
+    padding: 10px 12px;
+    font-size: 14px;
+    resize: none; // Empêche l'utilisateur de déformer la modal en l'étirant
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      border-color: #cbd5e1 !important;
+    }
+
+    &:focus {
+      border-color: #0f172a !important; // Accentuation Bleu Nuit/Slate lors de la saisie actif
+      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08) !important;
+    }
+  }
+}
+
+// Nettoyage et aération de la barre d'action basse de ta modal
 .form-actions-wrapper {
   display: flex;
-  justify-content: flex-end; // Aligne le bloc d'espacement à droite de la modal
+  justify-content: flex-end;
   margin-top: 24px;
-  border-top: 1px solid #f1f5f9; // Ligne grise fine au-dessus des boutons
+  border-top: 1px solid #f1f5f9;
   padding-top: 16px;
   width: 100%;
 
-  // Personnalisation subtile du petit trait vertical interne
   ::v-deep .ant-divider-vertical {
     height: 1.4em;
-    background-color: #cbd5e1; // Gris doux Slate
+    background-color: #cbd5e1;
     margin: 0;
   }
 }

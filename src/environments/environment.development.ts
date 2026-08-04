@@ -1,4 +1,5 @@
 export const environment = {
-  production: false,
-  baseUrl: 'http://localhost:8080/api'
+  production: true,
+  baseUrl: 'https://backend-api-spring-boot.onrender.com/api'
+ //baseUrl: 'http://localhost:8080/api'
 };

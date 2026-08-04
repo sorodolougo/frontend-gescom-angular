@@ -1,18 +1,25 @@
-<form nz-form [formGroup]="customerForm" (ngSubmit)="submitForm()" nzLayout="vertical">
+<form nz-form [formGroup]="customerForm" (ngSubmit)="submitForm()" nzLayout="vertical" class="premium-form-wrapper">
   
-  <nz-form-item>
-    <nz-form-label nzRequired>Raison Sociale / Nom Complet</nz-form-label>
-    <nz-form-control nzErrorTip="Le nom doit contenir au moins 3 caractères">
-      <input nz-input formControlName="name" placeholder="Ex: Quincaillerie Jean-Francis ou Supermarché Soro" />
-    </nz-form-control>
-  </nz-form-item>
-
+  <!-- LIGNE 1 : RAISON SOCIALE -->
   <div nz-row [nzGutter]="16">
-    <div nz-col nzSpan="12" nzXs="24" nzSm="12">
+    <div nz-col nzSpan="24">
+      <app-input
+        formControlName="name"
+        label="Raison Sociale / Nom Complet"
+        placeholder="Ex: Quincaillerie Jean-Francis ou Supermarché Soro"
+        [required]="true"
+      />
+    </div>
+  </div>
+
+  <!-- LIGNE 2 : TYPE DE CLIENT & TÉLÉPHONE (DUAL GRID RESPONSIF) -->
+  <div nz-row [nzGutter]="16">
+    <!-- Type de Tiers (On garde le select natif NG-ZORRO en l'aérant proprement) -->
+    <div nz-col nzXs="24" nzSm="12">
       <nz-form-item>
-        <nz-form-label nzRequired>Type de Tiers</nz-form-label>
+        <nz-form-label nzRequired><span class="label-premium">Type de Tiers</span></nz-form-label>
         <nz-form-control>
-          <nz-select formControlName="customerType">
+          <nz-select formControlName="customerType" class="premium-select">
             <nz-option nzValue="ENTREPRISE" nzLabel="B2B - Entreprise"></nz-option>
             <nz-option nzValue="PARTICULIER" nzLabel="B2C - Particulier"></nz-option>
           </nz-select>
@@ -20,54 +27,62 @@
       </nz-form-item>
     </div>
     
-    <div nz-col nzSpan="12" nzXs="24" nzSm="12">
+    <!-- Numéro de Téléphone converti au format app-input -->
+    <div nz-col nzXs="24" nzSm="12">
+      <app-input
+        formControlName="phone"
+        label="Numéro de Téléphone"
+        placeholder="Ex: 0707070707"
+        [required]="false"
+      />
+    </div>
+  </div>
+
+  <!-- LIGNE 3 : ADRESSE EMAIL -->
+  <div nz-row [nzGutter]="16">
+    <div nz-col nzSpan="24">
+      <app-input
+        formControlName="email"
+        label="Adresse Email"
+        placeholder="Ex: client@entreprise.ci"
+        [required]="false"
+      />
+    </div>
+  </div>
+
+  <!-- LIGNE 4 : ADRESSE GÉOGRAPHIQUE -->
+  <div nz-row [nzGutter]="16">
+    <div nz-col nzSpan="24">
       <nz-form-item>
-        <nz-form-label>Numéro de Téléphone</nz-form-label>
-        <nz-form-control nzErrorTip="Veuillez entrer un numéro de téléphone valide">
-          <input nz-input formControlName="phone" placeholder="Ex: 0707070707" />
+        <nz-form-label><span class="label-premium">Adresse Géographique</span></nz-form-label>
+        <nz-form-control>
+          <textarea 
+            nz-input 
+            formControlName="address" 
+            rows="3" 
+            class="premium-textarea" 
+            placeholder="Ex: Abidjan, Yopougon Maroc, non loin du complexe commercial...">
+          </textarea>
         </nz-form-control>
       </nz-form-item>
     </div>
   </div>
 
-  <nz-form-item>
-    <nz-form-label>Adresse Email</nz-form-label>
-    <nz-form-control nzErrorTip="L'adresse email saisie est incorrecte">
-      <input nz-input formControlName="email" type="email" placeholder="Ex: client@entreprise.ci" />
-    </nz-form-control>
-  </nz-form-item>
+  <!-- ZONE DES BOUTONS DU BAS DE LA MODAL AVEC SÉPARATEUR AUTOMATIQUE -->
+  <div class="form-actions-wrapper">
+    <nz-space nzAlign="center" [nzSplit]="modalSplit">
+      
+      <app-button *nzSpaceItem action="cancel" (btnClick)="closeModal()">Annuler</app-button>
+      
+      <app-button *nzSpaceItem action="save" htmlType="submit" [loading]="isSaving()">
+        {{ isEditMode() ? 'Éditer' : 'Enregistrer' }}
+      </app-button>
+      
+    </nz-space>
 
-  <nz-form-item>
-    <nz-form-label>Adresse Géographique</nz-form-label>
-    <nz-form-control>
-      <textarea nz-input formControlName="address" rows="3" placeholder="Ex: Abidjan, Yopougon Maroc..."></textarea>
-    </nz-form-control>
-  </nz-form-item>
-
-  <!-- ZONE DES BOUTONS DU BAS DE LA MODAL -->
- <!-- Reste du formulaire inchangé ... -->
-
-<!-- ZONE DES BOUTONS DU BAS DE LA MODAL AVEC SÉPARATEUR -->
-<div class="form-actions-wrapper">
-  
-  <!-- Alignement automatique par Space + Divider -->
-  <nz-space nzAlign="center" [nzSplit]="modalSplit">
-    
-    <app-button *nzSpaceItem action="cancel" (btnClick)="closeModal()">Annuler</app-button>
-    
-    <app-button *nzSpaceItem action="save" htmlType="submit" [loading]="isSaving()">
-      {{ isEditMode() ? 'Éditer' : 'Enregistrer' }}
-    </app-button>
-    
-  </nz-space>
-
-  <!-- Template servant de moule pour injecter le trait vertical fin -->
-  <ng-template #modalSplit>
-    <nz-divider nzType="vertical"></nz-divider>
-  </ng-template>
-
-</div>
-
-
+    <ng-template #modalSplit>
+      <nz-divider nzType="vertical"></nz-divider>
+    </ng-template>
+  </div>
 
 </form>
