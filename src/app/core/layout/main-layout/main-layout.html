@@ -1,18 +1,16 @@
 <nz-layout class="app-layout">
-  
   <!-- SIDEBAR LATÉRALE -->
   <!-- [nzCollapsed] et (nzCollapseChange) : Gèrent proprement le Signal en flux unidirectionnel -->
   <!-- nzBreakpoint="lg" : Standard ERP pour plier le menu automatiquement sur les tablettes -->
-<nz-sider
-  class="menu-sidebar"
-  nzCollapsible
-  nzWidth="256px"
-  nzBreakpoint="lg"
-  [nzCollapsed]="isCollapsed()"
-  (nzCollapsedChange)="isCollapsed.set($event)"
-  [nzTrigger]="null">
-
-    
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="lg"
+    [nzCollapsed]="isCollapsed()"
+    (nzCollapsedChange)="isCollapsed.set($event)"
+    [nzTrigger]="null"
+  >
     <!-- Logo d'entreprise épuré (Plus de redirection vers le site externe d'Ant Design) -->
     <div class="sidebar-logo">
       <div class="logo-container">
@@ -25,7 +23,6 @@
 
     <!-- MENU DE NAVIGATION -->
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed()">
-      
       <!-- Lien Accueil / Bienvenue -->
       <li nz-menu-item nzMatchRouter>
         <a routerLink="/welcome">
@@ -33,7 +30,7 @@
           <span>Bienvenue</span>
         </a>
       </li>
-      
+
       <!-- Module Commercial (Sous-menu déployé dynamiquement) -->
       <li nz-submenu nzOpen nzTitle="Gestion Commerciale" nzIcon="shop">
         <ul>
@@ -51,30 +48,41 @@
               <span>Fichier Clients</span>
             </a>
           </li>
+hh
+          <!-- NOUVEAU LIEN : Facturation / Ventes -->
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/commercial/invoices">
+              <span nz-icon nzType="file-text"></span>
+              <span>Facturation & Ventes</span>
+            </a>
+          </li>
+
         </ul>
       </li>
-
     </ul>
   </nz-sider>
 
   <!-- ZONE DE CONTENU À DROITE -->
   <nz-layout class="right-layout">
-    
     <!-- EN-TÊTE DE L'APPLICATION -->
     <nz-header class="app-header-container">
       <div class="app-header">
         <!-- Actionneur de pliage du menu mis à jour avec l'API .set() des Signals -->
         <span class="header-trigger" (click)="isCollapsed.set(!isCollapsed())">
-          <span nz-icon class="trigger" [nzType]="isCollapsed() ? 'menu-unfold' : 'menu-fold'"></span>
+          <span
+            nz-icon
+            class="trigger"
+            [nzType]="isCollapsed() ? 'menu-unfold' : 'menu-fold'"
+          ></span>
         </span>
-        
+
         <!-- Zone de profil utilisateur pour un rendu ERP Premium -->
         <div class="header-user-profile">
-  <!-- Affiche : 30 juillet 2026 à 03:16:45 (Se met à jour chaque seconde) -->
-  <span class="user-role">
-    {{ currentDateTime() | date: "dd MMMM yyyy ',' HH:mm:ss" }}
-  </span>
-</div>
+          <!-- Affiche : 30 juillet 2026 à 03:16:45 (Se met à jour chaque seconde) -->
+          <span class="user-role">
+            {{ currentDateTime() | date: "dd MMMM yyyy ',' HH:mm:ss" }}
+          </span>
+        </div>
       </div>
     </nz-header>
 
@@ -84,6 +92,5 @@
         <router-outlet></router-outlet>
       </div>
     </nz-content>
-
   </nz-layout>
 </nz-layout>

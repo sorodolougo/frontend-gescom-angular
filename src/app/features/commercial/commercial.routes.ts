@@ -35,5 +35,25 @@ export const COMMERCIAL_ROUTES: Routes = [
     title: 'GesCom - Fiche Client Détails',
     loadComponent: () => import('./customers/customer-details/customer-details').then(m => m.CustomerDetails)
   },
+
+
+ // 1. ROUTE POUR LE GRAND TABLEAU DES FACTURES
+  {
+    path: 'invoices',
+    loadComponent: () =>
+      import('./invoice/invoice-list/invoice-list').then(
+        (m) => m.InvoiceList
+      ),
+  },
+
+   // 2. ROUTE POUR L'ÉCRAN DE CRÉATION DE FACTURE PREMIUM
+  {
+    path: 'invoices/create',
+    loadComponent: () =>
+      import('./invoice/invoice-create/invoice-create').then(
+        (m) => m.InvoiceCreate
+      ),
+  }
+
   
 ];

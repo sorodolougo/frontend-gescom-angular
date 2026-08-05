@@ -1,0 +1,195 @@
+<div class="page-container">
+  <!-- EN-TÊTE DE SECTION -->
+  <div nz-row class="mb-16">
+    <div nz-col nzSpan="24">
+      <app-text variant="h1">Édition d'une Facture Vente</app-text>
+      <app-text variant="body" type="secondary"
+        >Générez une transaction commerciale conforme, calculez les taxes et déduisez
+        automatiquement les stocks.</app-text
+      >
+    </div>
+  </div>
+
+  <div nz-row [nzGutter]="24">
+    <!-- VOLET GAUCHE : SÉLECTION DES ARTICLES ET PANIER DE VENTE -->
+    <div nz-col nzXs="24" nzLg="15" class="mb-16">
+      <nz-card
+        nzTitle="Sélection des articles du catalogue"
+        [nzBordered]="false"
+        class="erp-card-premium"
+      >
+        <form nz-form [formGroup]="lineForm" (ngSubmit)="addInvoiceLine()" nzLayout="vertical">
+          <div nz-row [nzGutter]="16" nzAlign="bottom">
+            <div nz-col nzXs="24" nzSm="14">
+              <nz-form-item class="mb-12">
+                <nz-form-label>Choisir un produit du stock</nz-form-label>
+                <nz-form-control>
+                  <nz-select
+                    formControlName="productId"
+                    nzShowSearch
+                    placeholder="Rechercher par désignation ou SKU..."
+                  >
+                    @for (product of productsList(); track product.id) {
+                      <nz-option
+                        [nzValue]="product.id"
+                        [nzLabel]="
+                          product.name + ' (' + product.sku + ') - ' + product.priceHt + ' FCFA'
+                        "
+                      ></nz-option>
+                    }
+                  </nz-select>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="6">
+              <nz-form-item class="mb-12">
+                <nz-form-label>Quantité</nz-form-label>
+                <nz-form-control>
+                  <!-- FIX PREMIUM : Remplacement par le compteur numérique avec boutons d'incrément natifs -->
+                  <nz-input-number
+                    formControlName="quantity"
+                    [nzMin]="1"
+                    [nzStep]="1"
+                    class="w-100 premium-input-number"
+                  >
+                  </nz-input-number>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+
+            <div nz-col nzXs="24" nzSm="4" class="text-right mb-12">
+              <app-button action="create" htmlType="submit">Ajouter</app-button>
+            </div>
+          </div>
+        </form>
+
+        <!-- TABLEAU DU PANIER : UNIQUEMENT POUR PC ET TABLETTE -->
+        <div class="d-none-mobile mt-24">
+          <nz-table
+            #itemsTable
+            [nzData]="invoiceLines()"
+            nzSize="middle"
+            [nzFrontPagination]="false"
+          >
+            <thead>
+              <tr>
+                <th>Désignation</th>
+                <th class="text-right">P.U HT</th>
+                <th class="text-center">Qté</th>
+                <th class="text-right">Total TTC</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (line of itemsTable.data; track $index) {
+                <tr>
+                  <td>
+                    <strong>{{ line.product.name }}</strong> <br /><small class="text-muted">{{
+                      line.product.sku
+                    }}</small>
+                  </td>
+                  <td class="text-right">{{ line.unitPriceHt | number: '1.0-0' }}</td>
+                  <td class="text-center">
+                    <nz-tag nzColor="blue">{{ line.quantity }}</nz-tag>
+                  </td>
+                  <td class="text-right font-medium">{{ line.totalTtc | number: '1.0-0' }}</td>
+                  <td class="text-center">
+                    <app-button action="delete" (btnClick)="removeInvoiceLine($index)"></app-button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </nz-table>
+        </div>
+
+        <!-- AFFICHAGE PANIER MOBILE : LISTE DE BADGES FLUIDES EMPILÉS -->
+        <div class="d-block-mobile mt-16">
+          <div class="mobile-basket-header mb-8">
+            <app-text variant="body" type="secondary"
+              ><strong>Articles sélectionnés ({{ invoiceLines().length }})</strong></app-text
+            >
+          </div>
+
+          @for (line of invoiceLines(); track $index) {
+            <div class="mobile-basket-item">
+              <div class="item-info">
+                <div class="item-name">{{ line.product.name }}</div>
+                <div class="item-meta">
+                  <span class="sku-badge-micro">{{ line.product.sku }}</span>
+                  <span class="text-muted"
+                    >{{ line.quantity }} x {{ line.unitPriceHt | number: '1.0-0' }} F</span
+                  >
+                </div>
+              </div>
+              <div class="item-price-action">
+                <span class="price-ttc font-medium">{{ line.totalTtc | number: '1.0-0' }} F</span>
+                <app-button action="delete" (btnClick)="removeInvoiceLine($index)"></app-button>
+              </div>
+            </div>
+          } @empty {
+            <div class="empty-basket-mobile text-center">
+              <span nz-icon nzType="shopping-cart" style="font-size: 28px; color: #cbd5e1"></span>
+              <p class="text-muted mb-0 mt-4">Aucun article dans le panier</p>
+            </div>
+          }
+        </div>
+      </nz-card>
+    </div>
+
+    <!-- VOLET DROIT : CONFIGURATION CLIENT ET RECAPITULATIF FINANCIER -->
+    <div nz-col nzXs="24" nzLg="9">
+      <nz-card nzTitle="Validation & Règlement" [nzBordered]="false" class="erp-card-premium mb-16">
+        <form nz-form [formGroup]="invoiceForm" nzLayout="vertical">
+          <nz-form-item class="mb-0">
+            <nz-form-label nzRequired>Attribuer à un client</nz-form-label>
+            <nz-form-control>
+              <nz-select
+                formControlName="customerId"
+                nzShowSearch
+                placeholder="Sélectionner le tiers client..."
+              >
+                @for (customer of customersList(); track customer.id) {
+                  <nz-option
+                    [nzValue]="customer.id"
+                    [nzLabel]="customer.name + ' (' + customer.customerCode + ')'"
+                  ></nz-option>
+                }
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </nz-card>
+
+      <!-- PANNEAU DES TOTAUX STYLE STRIPE AVEC FOOTER DE BOUTONS ACCORDÉS -->
+      <nz-card [nzBordered]="false" class="erp-card-premium summary-card">
+        <div class="summary-row">
+          <span class="text-muted">Total Hors Taxes (HT) :</span>
+          <span class="font-medium value-right">{{ totalHt() | number: '1.0-0' }} FCFA</span>
+        </div>
+        <div class="summary-row">
+          <span class="text-muted">Montant TVA cumulé :</span>
+          <span class="value-right">{{ totalVat() | number: '1.0-0' }} FCFA</span>
+        </div>
+        <nz-divider class="my-12"></nz-divider>
+        <div class="summary-row total-ttc-row-premium">
+          <strong class="total-label">Net à payer (TTC) :</strong>
+          <span class="total-price-tag">{{ totalTtc() | number: '1.0-0' }} FCFA</span>
+        </div>
+
+        <!-- LES UNIQUES ACTIONNEURS DE TOUT LE COMPOSANT, COMMANDÉS EN BLINDAGE HORIZONTAL/VERTICAL -->
+        <div class="premium-mobile-actions-footer">
+          <app-button action="cancel" routerLink="/commercial/invoices">Annuler</app-button>
+          <app-button
+            action="save"
+            (btnClick)="saveInvoice()"
+            [disabled]="invoiceLines().length === 0 || invoiceForm.invalid"
+            [loading]="isSaving()"
+          >
+            Émettre la facture
+          </app-button>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+</div>

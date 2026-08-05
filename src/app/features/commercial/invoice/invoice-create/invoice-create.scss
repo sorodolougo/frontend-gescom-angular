@@ -1,0 +1,167 @@
+// ====================================================================================
+// UTILITIES (CLASSES UTILITAIRES ET STRUCTURES DE BASE)
+// ====================================================================================
+.mt-24 { margin-top: 24px; }
+.mt-16 { margin-top: 16px; }
+.mt-4  { margin-top: 4px; }
+.mb-0  { margin-bottom: 0 !important; }
+.mb-8  { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
+.my-12 { margin: 12px 0; }
+.font-medium { font-weight: 500; }
+.text-muted { color: #8c8c8c; }
+.text-primary { color: #096dd9; }
+
+// ====================================================================================
+// RESPONSIVE RESPIRATION CONFIGURATION (VISIBILITÉ CROISÉE DES GRILLES)
+// ====================================================================================
+.d-none-mobile { display: block; }
+.d-block-mobile { display: none; }
+
+@media (max-width: 768px) {
+  .d-none-mobile { display: none !important; }
+  .d-block-mobile { display: block !important; }
+
+  // Permet à la carte de prendre toute la largeur sans faire déborder le téléphone
+  ::v-deep .ant-card-body {
+    padding: 16px !important;
+  }
+}
+
+// ====================================================================================
+// CONCEPTION PREMIUM DU PANIER MOBILE (STYLE SHOPPING CART SAAS)
+// ====================================================================================
+.mobile-basket-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  width: 100%;
+
+  .item-info {
+    flex-grow: 1;
+    max-width: 65%;
+
+    .item-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .item-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      font-size: 12px;
+
+      .sku-badge-micro {
+        font-family: monospace;
+        background: #e6f7ff;
+        color: #096dd9;
+        padding: 0px 4px;
+        border-radius: 2px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .item-price-action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .price-ttc {
+      font-size: 14px;
+      color: #0f172a;
+    }
+
+    ::v-deep button.ant-btn {
+      padding: 0 10px !important;
+      height: 32px; // Plus compact pour le mobile
+    }
+  }
+}
+
+.empty-basket-mobile {
+  padding: 24px;
+  border: 2px dashed #e2e8f0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+// ====================================================================================
+// CORRECTION ALIGNEMENT FINANCIER & BARRE D'ACTIONS PRESTIGE
+// ====================================================================================
+.summary-card {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    padding: 6px 0;
+    width: 100%;
+
+    .value-right {
+      text-align: right;
+      white-space: nowrap; // Empêche le prix de passer à la ligne
+    }
+  }
+
+  // ALIGNEMENT D'ÉLITE DU BLOC NET À PAYER (ANTI-COLLISION MOBILE)
+  .total-ttc-row-premium {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 4px;
+
+    .total-label {
+      font-size: 15px;
+      color: #0f172a;
+      white-space: nowrap;
+    }
+
+    .total-price-tag {
+      font-size: 19px;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      text-align: right;
+    }
+  }
+
+  // DEPLOIEMENT DU PIED DE BOUTONS SANS COLLISION (PC / MOBILE DUAL MODE)
+  .premium-mobile-actions-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px; // Écartement sur PC
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+    width: 100%;
+
+    // BLINDAGE PHYSIQUE SUR MOBILE (Écrans inférieurs à 576px)
+    @media (max-width: 576px) {
+      flex-direction: column-reverse !important; // Empile verticalement et place "Annuler" en bas
+      align-items: stretch !important; // Force l'étirement total des boutons
+      gap: 8px; // Espace régulier uniforme
+      
+      ::v-deep app-button,
+      ::v-deep button.ant-btn {
+        width: 100% !important; // Confort tactile optimal au pouce
+      }
+    }
+  }
+}

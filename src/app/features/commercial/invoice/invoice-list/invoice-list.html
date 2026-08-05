@@ -1,0 +1,112 @@
+<div class="page-container">
+  
+  <!-- EN-TÊTE DE LA SECTION AVEC INTERRUPTEUR DE SÉCURITÉ MOBILE -->
+  <div nz-row nzJustify="space-between" nzAlign="middle" class="mb-16">
+    <div nz-col>
+      <app-text variant="h1">Registre des Ventes & Factures</app-text>
+      <app-text variant="body-lead" type="secondary">
+        Historique des transactions, suivi des encaissements clients et états financiers de la GesCom.
+      </app-text>
+    </div>
+    
+    <div nz-col class="header-action-responsive">
+      <app-button action="create" (btnClick)="navigateToCreate()">
+        <span class="btn-text-responsive">Émettre une nouvelle facture</span>
+      </app-button>
+    </div>
+  </div>
+
+  <!-- ====================================================================================
+       💻 AFFICHAGE DESKTOP : Le Grand Livre de Ventes (Masqué sur Mobile)
+       ==================================================================================== -->
+  <div nz-row class="mb-24 d-none-mobile">
+    <div nz-col nzSpan="24">
+      <nz-card [nzBordered]="false" class="erp-table-card">
+        <nz-table 
+          #invoiceTable 
+          [nzData]="invoices()" 
+          [nzLoading]="isLoading()"
+          [nzPageSize]="8"
+          nzSize="middle">
+          <thead>
+            <tr>
+              <th>N° Facture</th>
+              <th>Client</th>
+              <th class="text-right">Total HT</th>
+              <th class="text-right">Net à Payer (TTC)</th>
+              <th class="text-center">Statut</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (invoice of invoiceTable.data; track invoice.id) {
+              <tr>
+                <td><span class="sku-table-text">{{ invoice.invoiceNumber }}</span></td>
+                <td><strong>{{ invoice.customer.name }}</strong></td>
+                <td class="text-right font-medium">{{ invoice.totalAmountHt | number:'1.0-2' }} F</td>
+                <td class="text-right font-medium text-primary">{{ invoice.totalAmountTtc | number:'1.0-2' }} F</td>
+                <td class="text-center">
+                  @if (invoice.status === 'PAYEE') { <nz-tag nzColor="success">Payée</nz-tag> }
+                  @else if (invoice.status === 'VALIDEE') { <nz-tag nzColor="blue">Validée</nz-tag> }
+                  @else { <nz-tag nzColor="default">Brouillon</nz-tag> }
+                </td>
+                <td class="text-center">
+                  <nz-space nzAlign="center" [nzSplit]="invoiceSplit">
+                    <app-button *nzSpaceItem action="export" (btnClick)="onViewInvoice(invoice.id)">
+                      <span nz-icon nzType="eye" nzTheme="outline"></span>
+                    </app-button>
+                  </nz-space>
+                  <ng-template #invoiceSplit><nz-divider nzType="vertical"></nz-divider></ng-template>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+  </div>
+
+  <!-- ====================================================================================
+       📱 AFFICHAGE MOBILE : Cartes minimalistes empilées (Masqué sur PC)
+       ==================================================================================== -->
+  <div nz-row class="d-block-mobile mb-24">
+    @for (invoice of invoices(); track invoice.id) {
+      <div nz-col nzSpan="24">
+        <nz-card [nzTitle]="cardTitle" [nzBordered]="false" class="erp-mobile-card">
+          <div nz-row>
+            <div nz-col nzSpan="12" class="text-muted">Client :</div>
+            <div nz-col nzSpan="12" class="text-right font-medium">{{ invoice.customer.name }}</div>
+            
+            <div nz-col nzSpan="12" class="text-muted">Net à payer :</div>
+            <div nz-col nzSpan="12" class="text-right font-medium text-primary">{{ invoice.totalAmountTtc | number:'1.0-2' }} FCFA</div>
+            
+            <div nz-col nzSpan="12" class="text-muted">État du compte :</div>
+            <div nz-col nzSpan="12" class="text-right">
+              @if (invoice.status === 'PAYEE') { <nz-tag nzColor="success">Payée</nz-tag> }
+              @else { <nz-tag nzColor="default">Brouillon</nz-tag> }
+            </div>
+          </div>
+
+          <div class="mobile-card-actions-footer">
+            <app-button action="export" (btnClick)="onViewInvoice(invoice.id)">
+              <span nz-icon nzType="eye" nzTheme="outline"></span>
+            </app-button>
+          </div>
+
+          <ng-template #cardTitle>
+            <div class="mobile-title-container">
+              <span class="sku-badge">{{ invoice.invoiceNumber }}</span>
+            </div>
+          </ng-template>
+        </nz-card>
+      </div>
+    } @empty {
+      @if (!isLoading()) {
+        <div nz-col nzSpan="24" class="empty-state">
+          <app-text variant="body" type="secondary">Aucune facture émise pour le moment.</app-text>
+        </div>
+      }
+    }
+  </div>
+
+</div>
