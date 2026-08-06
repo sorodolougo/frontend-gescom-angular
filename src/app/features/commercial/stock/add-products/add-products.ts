@@ -1,5 +1,5 @@
 // FIX TS2305 : Changement de @angular/common vers @angular/core
-import { Component, inject, output, signal } from '@angular/core'; 
+import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators, FormControl, AbstractControl } from '@angular/forms';
 
@@ -34,6 +34,7 @@ interface ProductForm {
   ],
   templateUrl: './add-products.html',
   styleUrl: './add-products.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddProducts {
   private fb = inject(NonNullableFormBuilder);

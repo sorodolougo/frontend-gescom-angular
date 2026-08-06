@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal'; // <-- AJOUT DU LIEN MODAL
@@ -23,7 +23,8 @@ import { AppInputComponent } from '../../../../shared/components/input.component
     AppInputComponent
   ],
   templateUrl: './add-customer.html',
-  styleUrls: ['./add-customer.scss']
+  styleUrls: ['./add-customer.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddCustomer {
   private fb = inject(NonNullableFormBuilder);

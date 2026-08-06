@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
@@ -20,7 +20,8 @@ import { Invoice } from '../../../../models/invoice.model';
     SHARED_ZORRO_MODULES,
   ],
   templateUrl: './invoice-list.html',
-  styleUrls: ['./invoice-list.scss']
+  styleUrls: ['./invoice-list.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InvoiceList implements OnInit {
   private router = inject(Router);

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Modules NG-ZORRO indispensables pour le grand tableau et la mise en page
@@ -23,7 +23,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     AppTextComponent
   ],
   templateUrl: './customer-list.html',
-  styleUrls: ['./customer-list.scss']
+  styleUrls: ['./customer-list.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomerList implements OnInit {
   private customerService = inject(CustomerService);

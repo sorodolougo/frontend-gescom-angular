@@ -1,5 +1,5 @@
 // src/app/features/commercial/stock/product-details/product-details.ts
-import { Component, inject, input, signal, OnInit, effect } from '@angular/core';
+import { Component, inject, input, signal, OnInit, effect, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -22,7 +22,8 @@ import { SHARED_ZORRO_MODULES } from '../../../../shared/components/ui-component
     SHARED_ZORRO_MODULES,
   ],
   templateUrl: './product-details.html',
-  styleUrl: './product-details.scss'
+  styleUrl: './product-details.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductDetails {
   private fb = inject(NonNullableFormBuilder);

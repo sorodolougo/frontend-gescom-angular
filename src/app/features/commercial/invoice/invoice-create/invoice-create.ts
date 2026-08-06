@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, OnInit, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -13,6 +13,8 @@ import { Customer } from '../../../../models/customer.model';
 import { InvoiceLine } from '../../../../models/invoice.model';
 import { Product } from '../../../../models/product.model';
 import { SHARED_ZORRO_MODULES } from '../../../../shared/components/ui-components';
+import { InvoiceRequestDto, InvoiceService } from '../../../../core/services/invoice/invoice';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-invoice-create',
@@ -23,16 +25,20 @@ import { SHARED_ZORRO_MODULES } from '../../../../shared/components/ui-component
     RouterModule,
     AppButtonComponent,
     AppTextComponent,
+    
     SHARED_ZORRO_MODULES,
   ],
   templateUrl: './invoice-create.html',
-  styleUrls: ['./invoice-create.scss']
+  styleUrls: ['./invoice-create.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InvoiceCreate implements OnInit {
   private fb = inject(NonNullableFormBuilder);
   private customerService = inject(CustomerService);
   private productService = inject(ProductService);
+  private invoiceService = inject(InvoiceService);
   private router = inject(Router);
+   private notification = inject(NzNotificationService);
 
   // ÉTATS DE SÉLECTION ISSUS DU CLOUD NEON
   customersList = signal<Customer[]>([]);
@@ -104,14 +110,54 @@ export class InvoiceCreate implements OnInit {
     this.invoiceLines.set([...currentLines]);
   }
 
+ 
+  // ... tes signaux existants
+
   saveInvoice(): void {
     if (this.invoiceForm.valid && this.invoiceLines().length > 0) {
       this.isSaving.set(true);
-      console.log('Facture prête pour l\'envoi au serveur Spring Boot:', {
-        customerId: this.invoiceForm.controls.customerId.value,
-        lines: this.invoiceLines()
+
+      const payload: InvoiceRequestDto = {
+        customerId: this.invoiceForm.controls.customerId.value!,
+        lines: this.invoiceLines().map(line => ({
+          productId: line.product.id,
+          quantity: line.quantity
+        }))
+      };
+
+      this.invoiceService.createInvoice(payload).subscribe({
+        next: (createdInvoice) => {
+          this.isSaving.set(false);
+          
+          // 🟢 UX NOTIFICATION SUCCÈS
+          this.notification.success(
+            'Facture Émise',
+            `La pièce ${createdInvoice.invoiceNumber} a été validée et les stocks mis à jour.`,
+            { nzDuration: 4000 }
+          );
+
+          this.router.navigate(['/commercial/invoices']);
+        },
+        error: (err) => {
+          this.isSaving.set(false);
+          console.error('Échec de la transaction financière', err);
+
+          // 🚨 EXTRACTEUR INTÉLLIGENT DU MESSAGE SPRING BOOT
+          // On va chercher la clé 'message' envoyée par ton GlobalExceptionHandler Java
+          const backendErrorMessage = err.error?.message || 'Une erreur d\'infrastructure est survenue.';
+          const errorTitle = err.error?.error || 'Échec de Facturation';
+
+          // 🚨 UX NOTIFICATION ERREUR PREMIUM (STYLE STRIPE)
+          this.notification.error(
+            errorTitle,
+            backendErrorMessage,
+            { nzDuration: 0 } // 0 signifie que la notification reste ouverte tant que l'utilisateur ne clique pas sur la croix
+          );
+        }
       });
-      // Prochaine session : Raccordement au service HTTP
     }
   }
 }
+
+
+

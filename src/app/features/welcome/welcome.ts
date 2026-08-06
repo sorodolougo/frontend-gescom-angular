@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 
 // Imports des modules NG-ZORRO requis
 
@@ -24,6 +24,7 @@ import { Router } from '@angular/router';
  
   templateUrl: './welcome.html',
   styleUrl: './welcome.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Welcome {
   

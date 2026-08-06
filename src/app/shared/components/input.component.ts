@@ -10,7 +10,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
   selector: 'app-input',
   standalone: true,
   imports: [
-    CommonModule, 
     ReactiveFormsModule, 
     NzFormModule, 
     NzInputModule

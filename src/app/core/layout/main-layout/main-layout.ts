@@ -1,4 +1,4 @@
-import { Component, signal, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, inject, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, Router, NavigationEnd } from '@angular/router'; 
 import { filter } from 'rxjs/operators';
@@ -20,7 +20,8 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
     NzIconModule
   ],
   templateUrl: './main-layout.html',
-  styleUrl: './main-layout.scss'
+  styleUrl: './main-layout.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainLayout implements OnInit, OnDestroy {
   // Injection moderne des dépendances d'infrastructure
@@ -65,3 +66,5 @@ export class MainLayout implements OnInit, OnDestroy {
     this.isCollapsed.set(!!collapsed);
   }
 }
+
+

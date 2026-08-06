@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CustomerService } from '../../../../core/services/customer/customer';
@@ -18,7 +18,8 @@ import { SHARED_ZORRO_MODULES } from '../../../../shared/components/ui-component
     AppTextComponent
   ],
   templateUrl: './customer-details.html',
-  styleUrls: ['./customer-details.scss']
+  styleUrls: ['./customer-details.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomerDetails implements OnInit {
   private route = inject(ActivatedRoute);

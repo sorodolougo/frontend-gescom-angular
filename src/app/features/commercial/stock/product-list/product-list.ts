@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ProductService } from '../../../../core/services/product.service';
@@ -24,6 +24,7 @@ import { Router } from '@angular/router';
   ],
   templateUrl: './product-list.html',
   styleUrl: './product-list.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductList implements OnInit {
 

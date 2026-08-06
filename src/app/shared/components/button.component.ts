@@ -10,7 +10,7 @@ export type ButtonActionType = 'save' | 'cancel' | 'delete' | 'edit' | 'create' 
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [CommonModule, NzButtonModule, NzIconModule],
+  imports: [NzButtonModule, NzIconModule],
   template: `
     <button
       nz-button
