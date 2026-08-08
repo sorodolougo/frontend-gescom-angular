@@ -19,9 +19,9 @@
       </div>
     </div>
 
-    <!-- GRILLE D'INFORMATION DU COMPTE -->
-    <div nz-row [nzGutter]="16">
-      <div nz-col nzXs="24" nzMd="16">
+    <!-- BLOC SUPERIEUR : GRILLE D'INFORMATION & STATS STYLE SAAS -->
+    <div nz-row [nzGutter]="16" class="mb-24">
+      <div nz-col nzXs="24" nzMd="14" class="mb-16">
         <nz-card nzTitle="Coordonnées et Identité du Tiers" [nzBordered]="false" class="erp-card-premium">
           <div class="details-grid">
             <div class="details-row">
@@ -33,23 +33,67 @@
               <span class="value">{{ activeCustomer.email || 'Aucune adresse email' }}</span>
             </div>
             <div class="details-row">
-              <span class="label text-muted">Adresse Postale / Géographique :</span>
+              <span class="label text-muted">Adresse Postale :</span>
               <span class="value">{{ activeCustomer.address || 'Aucune adresse enregistrée' }}</span>
             </div>
             <div class="details-row">
-              <span class="label text-muted">Date d'intégration dans l'ERP :</span>
-              <span class="value text-muted">{{ activeCustomer.createdAt | date: 'dd MMMM yyyy à HH:mm' }}</span>
+              <span class="label text-muted">Intégration ERP :</span>
+              <span class="value text-muted">{{ activeCustomer.createdAt | date: 'dd MMMM yyyy' }}</span>
             </div>
           </div>
         </nz-card>
       </div>
 
-      <!-- PETIT WIDGET DE STATUT FINANCIER (PRO ASPECT) -->
-      <div nz-col nzXs="24" nzMd="8">
-        <nz-card nzTitle="Statut Commercial" [nzBordered]="false" class="erp-card-premium text-center">
-          <span nz-icon nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a" style="font-size: 48px;" class="mb-16"></span>
-          <app-text variant="h3">Compte Actif</app-text>
-          <app-text variant="caption" type="secondary">Ce client est autorisé à passer des commandes sur l'ensemble du réseau GesCom.</app-text>
+      <!-- KPI FINANCIER DU CLIENT UNIQUE -->
+      <div nz-col nzXs="24" nzMd="10" class="mb-16">
+        <nz-card nzTitle="Volume d'Affaires" [nzBordered]="false" class="erp-card-premium summary-finance-card">
+          <nz-statistic
+            [nzValue]="totalPurchased()"
+            [nzValueStyle]="{ color: '#096dd9', 'font-weight': '700', 'font-size': '26px' }"
+            nzSuffix="FCFA">
+          </nz-statistic>
+          <p class="text-muted mt-8 mb-0">Cumul de toutes les factures validées émises pour ce compte tiers.</p>
+        </nz-card>
+      </div>
+    </div>
+
+    <!-- 🟢 VUE UNIQUE : HISTORIQUE DE TOUTES LES FACTURES DE CE CLIENT -->
+    <div nz-row class="mb-24">
+      <div nz-col nzSpan="24">
+        <nz-card nzTitle="Historique des Factures Émises" [nzBordered]="false" class="erp-card-premium">
+          <nz-table 
+            #invoiceTable 
+            [nzData]="customerInvoices()" 
+            [nzLoading]="isLoading()"
+            [nzPageSize]="5"
+            nzSize="middle">
+            <thead>
+              <tr>
+                <th>N° Facture</th>
+                <th class="text-right">Total HT</th>
+                <th class="text-right">Net à Payer (TTC)</th>
+                <th class="text-center">Date d'Émission</th>
+                <th class="text-center">Statut</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (invoice of invoiceTable.data; track invoice.id) {
+                <tr>
+                  <td><span class="sku-table-text">{{ invoice.invoiceNumber }}</span></td>
+                  <td class="text-right font-medium">{{ invoice.totalAmountHt | number:'1.0-0' }} F</td>
+                  <td class="text-right font-medium text-primary">{{ invoice.totalAmountTtc | number:'1.0-0' }} F</td>
+                  <td class="text-center text-muted">{{ invoice.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+                  <td class="text-center">
+                    @if (invoice.status === 'PAYEE') {
+                      <nz-tag nzColor="success">Payée</nz-tag>
+                    } @else {
+                      <nz-tag nzColor="blue">Validée</nz-tag>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </nz-table>
         </nz-card>
       </div>
     </div>

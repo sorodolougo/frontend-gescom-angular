@@ -53,7 +53,6 @@ export const COMMERCIAL_ROUTES: Routes = [
       import('./invoice/invoice-create/invoice-create').then(
         (m) => m.InvoiceCreate
       ),
-  }
+  },
 
-  
 ];

@@ -54,5 +54,15 @@ export class InvoiceService {
   createInvoice(transaction: InvoiceRequestDto): Observable<Invoice> {
     return this.http.post<Invoice>(this.apiUrl, transaction);
   }
+
+
+    /**
+   * HISTORIQUE TIERS : Récupère toutes les factures associées à un client spécifique.
+   * @param customerId L'identifiant technique du client
+   */
+  getInvoicesByCustomerId(customerId: number): Observable<Invoice[]> {
+    return this.http.get<Invoice[]>(`${this.apiUrl}/customer/${customerId}`);
+  }
+
 }
 

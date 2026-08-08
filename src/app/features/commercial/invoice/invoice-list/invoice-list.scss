@@ -1,9 +1,132 @@
+// ====================================================================================
+// UTILITIES & CORE STRUCTURAL ALIGNMENT
+// ====================================================================================
+.mb-16 { margin-bottom: 16px; }
+.mb-8  { margin-bottom: 8px; }
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.font-medium { font-weight: 500; }
+.text-muted { color: #8c8c8c; }
+.text-primary { color: #096dd9; }
+
+.sku-table-text {
+  font-family: monospace;
+  font-weight: bold;
+  color: #096dd9;
+}
+
+// ALIGNEMENT DU CONTENEUR D'ACTIONS PC (GRAND TABLEAU)
+.table-actions-container {
+  display: inline-flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100%;
+
+  ::v-deep .ant-divider-vertical {
+    height: 1.5em;
+    background-color: #cbd5e1;
+    margin: 0;
+  }
+}
+
+// GESTION DU DOUBLE MODE DE VISIBILITÉ (PC / MOBILE POINT DE RUPTURE)
 .d-none-mobile { display: block; }
 .d-block-mobile { display: none; }
 
 @media (max-width: 768px) {
   .d-none-mobile { display: none !important; }
   .d-block-mobile { display: block !important; }
+
+  // Respiration interne de la carte Ant Design sur petit écran
+  ::v-deep .ant-card-body {
+    padding: 16px !important;
+  }
 }
 
-.text-primary { color: #096dd9; }
+// ====================================================================================
+// STRUCTURE DES CARTES DE FACTURES MOBILE (PREMIUM SaaS DESIGN)
+// ====================================================================================
+.erp-mobile-card {
+  margin-bottom: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f0f0f0;
+  background: #ffffff;
+
+  // Libération forcée de l'en-tête pour un alignement horizontal parfait
+  ::v-deep .ant-card-head-wrapper {
+    width: 100% !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+  }
+
+  .mobile-title-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    .sku-badge {
+      font-family: monospace;
+      font-weight: bold;
+      color: #0f172a;
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      border: 1px solid #e2e8f0;
+    }
+  }
+
+  // Alignement symétrique des informations en grille flexbox
+  .mobile-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 14px;
+    border-bottom: 1px dashed #f1f5f9;
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+
+    .value-right {
+      text-align: right;
+      font-weight: 500;
+      color: #1e293b;
+      max-width: 60%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; // Empêche les longs noms de clients de casser la grille
+    }
+  }
+
+  // PIED DE CARTE PREMIUM POUR LES BOUTONS (CONFORT DE CLIC AU POUCE)
+  .mobile-card-actions-footer {
+    display: flex;
+    justify-content: flex-end; // Bouton poussé élégamment à droite
+    align-items: center;
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid #f1f5f9; // Fine ligne de démarcation grise
+    width: 100%;
+    
+    // Standardisation du bouton carré compact d'inspection
+    ::v-deep button.ant-btn {
+      padding: 0 14px !important;
+      height: 38px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      
+      .anticon {
+        font-size: 16px;
+      }
+    }
+  }
+}
