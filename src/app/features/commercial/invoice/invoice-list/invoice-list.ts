@@ -75,14 +75,16 @@ export class InvoiceList implements OnInit {
     this.router.navigate(['/commercial/customers', id]); // Génère l'URL : /commercial/customers/12
   }
 
+   
     /**
-   * INVOICE PROFILE NAVIGATION : Propulse l'utilisateur sur la page de consultation de la facture
-   * @param id L'identifiant technique unique du document de vente
+   * CENTRALISATION UX : Propulse l'utilisateur sur la fiche PROFIL du client lié à la facture
+   * @param customerId L'identifiant technique du tiers client attaché à la pièce comptable
    */
-  onViewInvoice(id: number): void {
-    // Génère proprement l'URL : /commercial/invoices/12
-    this.router.navigate(['/commercial/customers', id]);
+  onViewInvoice(customerId: number): void {
+    // 🟢 MAGIE : On redirige directement vers le module d'inspection du client !
+    this.router.navigate(['/commercial/customers', customerId]); 
   }
+
 
  
 }

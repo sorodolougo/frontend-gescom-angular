@@ -1,14 +1,14 @@
 <div class="page-container">
-  
   <!-- EN-TÊTE DE LA SECTION AVEC ACTIONS RESPONSIVES -->
   <div nz-row nzJustify="space-between" nzAlign="middle" class="mb-16">
     <div nz-col>
       <app-text variant="h1">Registre des Ventes & Factures</app-text>
       <app-text variant="body-lead" type="secondary">
-        Historique des transactions, suivi des encaissements clients et états financiers de la GesCom.
+        Historique des transactions, suivi des encaissements clients et états financiers de la
+        GesCom.
       </app-text>
     </div>
-    
+
     <div nz-col class="header-action-responsive">
       <app-button action="create" (btnClick)="navigateToCreate()">
         <span class="btn-text-responsive">Émettre une nouvelle facture</span>
@@ -22,12 +22,13 @@
   <div nz-row class="mb-24 d-none-mobile">
     <div nz-col nzSpan="24">
       <nz-card [nzBordered]="false" class="erp-table-card">
-        <nz-table 
-          #invoiceTable 
-          [nzData]="invoices()" 
+        <nz-table
+          #invoiceTable
+          [nzData]="invoices()"
           [nzLoading]="isLoading()"
           [nzPageSize]="8"
-          nzSize="middle">
+          nzSize="middle"
+        >
           <thead>
             <tr>
               <th>N° Facture</th>
@@ -41,27 +42,41 @@
           <tbody>
             @for (invoice of invoiceTable.data; track invoice.id) {
               <tr>
-                <td><span class="sku-table-text">{{ invoice.invoiceNumber }}</span></td>
-                <td><strong>{{ invoice.customer.name }}</strong></td>
-                <td class="text-right font-medium">{{ invoice.totalAmountHt | number:'1.0-0' }} F</td>
-                <td class="text-right font-medium text-primary">{{ invoice.totalAmountTtc | number:'1.0-0' }} F</td>
+                <td>
+                  <span class="sku-table-text">{{ invoice.invoiceNumber }}</span>
+                </td>
+                <td>
+                  <strong>{{ invoice.customer.name }}</strong>
+                </td>
+                <td class="text-right font-medium">
+                  {{ invoice.totalAmountHt | number: '1.0-0' }} F
+                </td>
+                <td class="text-right font-medium text-primary">
+                  {{ invoice.totalAmountTtc | number: '1.0-0' }} F
+                </td>
                 <td class="text-center">
-                  @if (invoice.status === 'PAYEE') { 
-                    <nz-tag nzColor="success">Payée</nz-tag> 
-                  } @else if (invoice.status === 'VALIDEE') { 
-                    <nz-tag nzColor="blue">Validée</nz-tag> 
-                  } @else { 
-                    <nz-tag nzColor="default">Brouillon</nz-tag> 
+                  @if (invoice.status === 'PAYEE') {
+                    <nz-tag nzColor="success">Payée</nz-tag>
+                  } @else if (invoice.status === 'VALIDEE') {
+                    <nz-tag nzColor="blue">Validée</nz-tag>
+                  } @else {
+                    <nz-tag nzColor="default">Brouillon</nz-tag>
                   }
                 </td>
                 <td class="text-center">
                   <div class="table-actions-container">
                     <nz-space nzAlign="center" [nzSplit]="invoiceSplit">
-                      <app-button *nzSpaceItem action="export" (btnClick)="onViewInvoice(invoice.id)">
+                      <app-button
+                        *nzSpaceItem
+                        action="export"
+                        (btnClick)="onViewInvoice(invoice.customer.id)"
+                      >
                         <span nz-icon nzType="eye" nzTheme="outline"></span>
                       </app-button>
                     </nz-space>
-                    <ng-template #invoiceSplit><nz-divider nzType="vertical"></nz-divider></ng-template>
+                    <ng-template #invoiceSplit
+                      ><nz-divider nzType="vertical"></nz-divider
+                    ></ng-template>
                   </div>
                 </td>
               </tr>
@@ -78,39 +93,39 @@
   <div nz-row class="d-block-mobile mb-24">
     @for (invoice of invoices(); track invoice.id) {
       <div nz-col nzSpan="24">
-        
         <!-- FIX COUPLAGE : Le titre cardTitle est proprement relié pour un affichage horizontal étanche -->
         <nz-card [nzTitle]="cardTitle" [nzBordered]="false" class="erp-mobile-card">
-          
           <!-- Ligne 1 : Client -->
           <div class="mobile-card-row">
             <span class="text-muted">Client :</span>
             <span class="value-right">{{ invoice.customer.name }}</span>
           </div>
-          
+
           <!-- Ligne 2 : Net à payer -->
           <div class="mobile-card-row">
             <span class="text-muted">Net à payer :</span>
-            <span class="value-right text-primary font-medium">{{ invoice.totalAmountTtc | number:'1.0-0' }} F</span>
+            <span class="value-right text-primary font-medium"
+              >{{ invoice.totalAmountTtc | number: '1.0-0' }} F</span
+            >
           </div>
-          
+
           <!-- Ligne 3 : Statut financier -->
           <div class="mobile-card-row">
             <span class="text-muted">État du compte :</span>
             <span class="value-right">
-              @if (invoice.status === 'PAYEE') { 
-                <nz-tag nzColor="success">Payée</nz-tag> 
+              @if (invoice.status === 'PAYEE') {
+                <nz-tag nzColor="success">Payée</nz-tag>
               } @else if (invoice.status === 'VALIDEE') {
                 <nz-tag nzColor="blue">Validée</nz-tag>
-              } @else { 
-                <nz-tag nzColor="default">Brouillon</nz-tag> 
+              } @else {
+                <nz-tag nzColor="default">Brouillon</nz-tag>
               }
             </span>
           </div>
 
           <!-- FOOTER DE CARTE : Le bouton blanc d'inspection de niveau Senior Pro -->
           <div class="mobile-card-actions-footer">
-            <app-button action="export" (btnClick)="onViewInvoice(invoice.id)">
+            <app-button action="export" (btnClick)="onViewInvoice(invoice.customer.id)">
               <span nz-icon nzType="eye" nzTheme="outline"></span>
             </app-button>
           </div>
@@ -121,7 +136,6 @@
               <span class="sku-badge">{{ invoice.invoiceNumber }}</span>
             </div>
           </ng-template>
-
         </nz-card>
       </div>
     } @empty {
@@ -132,5 +146,4 @@
       }
     }
   </div>
-
 </div>
